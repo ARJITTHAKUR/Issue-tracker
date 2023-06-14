@@ -12,6 +12,7 @@ type User struct {
 type Project struct {
 	ID        uint `gorm:"primaryKey"`
 	Name      string
+	UserId    uint
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
