@@ -13,3 +13,7 @@
    2. create sub-tasks / add timeline
    3. log work in sub task / mark as complete
 3. view exsisting epics and modify them
+
+
+1. A user can have multiple projects and one project can have multiple tasks
+2. user => []projects => []tasks
