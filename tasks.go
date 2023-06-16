@@ -29,18 +29,18 @@ func Createtask(c *fiber.Ctx) error {
 	type project struct {
 		ID uint
 	}
-	res := DB.Where(&project{ID: tempTask.ProjectID}).First(&tempProject)
+	res := DB.Where(&project{ID: tempTask.ProjectID}).First(&tempProject) // temp project struct for where query and mutation in complete shape
 	fmt.Println("queried ==>", tempProject)
 
-	if res.Error != nil || tempProject.ID != tempTask.ProjectID {
-		var err error
+	if res.Error != nil || tempProject.ID != tempTask.ProjectID { // proper error handling
+		var err error // error variable
 		if res.RowsAffected == 0 {
 			fmt.Println("rows effected ==> ", res.RowsAffected)
 			err = errors.New("project not found")
 		} else {
 			err = res.Error
 		}
-		return c.JSON(&fiber.Map{
+		return c.JSON(&fiber.Map{ // return statement for request
 			"success": false,
 			"message": err.Error(),
 		})
