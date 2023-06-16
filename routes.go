@@ -21,4 +21,6 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Post("/createTask", Createtask)
 
+	api.Post("/login", Login)
+
 }

@@ -31,3 +31,37 @@ func GetUser(c *fiber.Ctx) error {
 		"userId": userID,
 	})
 }
+
+func Login(c *fiber.Ctx) error {
+	type userCreds struct {
+		Name string
+	}
+
+	cred := userCreds{}
+
+	if err := c.BodyParser(&cred); err != nil {
+		return c.JSON(&fiber.Map{
+			"message": "parsing error",
+			"success": false,
+		})
+	}
+
+	type user struct {
+		Name string
+	}
+	userValue := user{}
+	DB.Where(&cred).First(&userValue)
+
+	if userValue.Name != cred.Name {
+		return c.JSON(&fiber.Map{
+			"success": false,
+			"message": "user not found",
+		})
+	}
+	return c.JSON(&fiber.Map{
+		"success": true,
+		"login":   true,
+		"user":    userValue,
+	})
+
+}
