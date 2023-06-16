@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
@@ -10,17 +9,18 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm/logger"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/gorm"
 )
 
-const (
-	host     = "localhost"
-	port     = "5432"
-	user     = "postgres"
-	password = "password"
-	dbname   = "ISSUE_TRACKER"
-)
+// const (
+// 	host     = "localhost"
+// 	port     = "5432"
+// 	user     = "postgres"
+// 	password = "password"
+// 	dbname   = "ISSUE_TRACKER"
+// )
 
 // var DB *sql.DB
 
@@ -37,7 +37,21 @@ func DbConnectNew() {
 			Colorful:                  false,         // Disable color
 		},
 	)
-	dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
+	user := os.Getenv("USER")
+	password := os.Getenv("PASSWORD")
+	dbname := os.Getenv("DBNAME")
+	// fmt.Println(host, port, user, password, dbname)
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	// dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
+	dsn := connStr
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: newLogger,
 	})
@@ -53,28 +67,28 @@ func DbConnectNew() {
 	RunAllMigrations()
 }
 
-func Connect() {
-	//postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable
-	var err error
-	// connectString := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-	dynamicConnString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	fmt.Println(dynamicConnString)
-	DB, err := sql.Open("postgres", dynamicConnString)
+// func Connect() {
+// 	//postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable
+// 	var err error
+// 	// connectString := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+// 	dynamicConnString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+// 	fmt.Println(dynamicConnString)
+// 	DB, err := sql.Open("postgres", dynamicConnString)
 
-	if err != nil {
-		panic(err)
-	}
-	defer DB.Close()
-	if err := DB.Ping(); err != nil {
-		panic(err)
-	}
-	fmt.Println("DB connected !!")
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	defer DB.Close()
+// 	if err := DB.Ping(); err != nil {
+// 		panic(err)
+// 	}
+// 	fmt.Println("DB connected !!")
 
-	println("Testing if tables exsist ?")
-	testDBTables()
+// 	println("Testing if tables exsist ?")
+// 	testDBTables()
 
-	// DB.Close()
-}
+// 	// DB.Close()
+// }
 
 func testDBTables() {
 
