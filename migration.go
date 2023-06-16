@@ -36,9 +36,13 @@ func TaskMigrations() error {
 func RunAllMigrations() error {
 	fmt.Println("running all migrations")
 
-	UserMigrations()
-	ProjectMigrations()
-	TaskMigrations()
+	// UserMigrations()
+	// ProjectMigrations()
+	// TaskMigrations()
 
 	return nil
+}
+
+func MigrationObjectArray() {
+
 }

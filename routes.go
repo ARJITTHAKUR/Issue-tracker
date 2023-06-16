@@ -19,4 +19,6 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Post("/createProject", CreateProject)
 
+	api.Post("/createTask", Createtask)
+
 }
