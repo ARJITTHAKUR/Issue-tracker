@@ -14,16 +14,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// const (
-// 	host     = "localhost"
-// 	port     = "5432"
-// 	user     = "postgres"
-// 	password = "password"
-// 	dbname   = "ISSUE_TRACKER"
-// )
-
-// var DB *sql.DB
-
 var DB *gorm.DB
 
 func DbConnectNew() {
@@ -65,52 +55,4 @@ func DbConnectNew() {
 	fmt.Println("connected to DB")
 
 	RunAllMigrations()
-}
-
-// func Connect() {
-// 	//postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable
-// 	var err error
-// 	// connectString := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-// 	dynamicConnString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-// 	fmt.Println(dynamicConnString)
-// 	DB, err := sql.Open("postgres", dynamicConnString)
-
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer DB.Close()
-// 	if err := DB.Ping(); err != nil {
-// 		panic(err)
-// 	}
-// 	fmt.Println("DB connected !!")
-
-// 	println("Testing if tables exsist ?")
-// 	testDBTables()
-
-// 	// DB.Close()
-// }
-
-func testDBTables() {
-
-	// 	rows, err := DB.Query(`SELECT FROM
-	// 	pg_tables
-	// WHERE
-	// 	schemaname = 'public' AND
-	// 	tablename  = 'user'`)
-
-	// 	// defer rows.Close()clear
-
-	// 	if err != nil {
-	// 		fmt.Println("query Error")
-	// 		panic(err)
-	// 	}
-
-	// 	var res string
-	// 	var data []string
-	// 	for rows.Next() {
-	// 		rows.Scan(&res)
-	// 		data = append(data, res)
-	// 	}
-	// 	fmt.Println(data)
-
 }

@@ -1,0 +1,31 @@
+.btn-class{
+    all:unset;
+    padding: 8px 5px;
+    background-color: darkslateblue;
+    border-radius: 5px;
+    color: white;
+    font-size: medium;
+    text-align: center;
+    border: 1.5px solid black;
+}
+
+.btn-class:hover {
+    background-color: cornflowerblue;
+    border: 1px solid black;
+}
+
+.loading {
+    border-radius: 50%;
+    border-right: 2px solid white;
+    border-top: 2px solid white;
+    width: 20px;
+    height: 20px;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}

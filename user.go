@@ -3,13 +3,42 @@ package main
 import (
 	"fmt"
 
+	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
 	// "gorm.io/gorm"
 )
 
-// type testUser struct {
-// 	Name string `json:"name"`
-// }
+//	type testUser struct {
+//		Name string `json:"name"`
+//	}
+type ErrorResponse struct {
+	FailedField string
+	Tag         string
+	Value       string
+}
+
+type userCreds struct {
+	Name string `validate:"required"`
+}
+
+var validate = validator.New()
+
+func ValidateStruct(user userCreds) []*ErrorResponse {
+	var errors []*ErrorResponse
+
+	err := validate.Struct(user)
+
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			var element ErrorResponse
+			element.FailedField = err.StructNamespace()
+			element.Tag = err.Tag()
+			element.Value = err.Param()
+			errors = append(errors, &element)
+		}
+	}
+	return errors
+}
 
 func CreateUser(c *fiber.Ctx) error {
 	tempUserStruct := &User{}
@@ -33,25 +62,26 @@ func GetUser(c *fiber.Ctx) error {
 }
 
 func Login(c *fiber.Ctx) error {
-	type userCreds struct {
-		Name string
-	}
 
 	cred := userCreds{}
-
+	fmt.Println(c.Body())
 	if err := c.BodyParser(&cred); err != nil {
 		return c.JSON(&fiber.Map{
 			"message": "parsing error",
 			"success": false,
 		})
 	}
-
+	// fmt.Println(cred)
+	errors := ValidateStruct(cred)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+	}
 	type user struct {
 		Name string
 	}
 	userValue := user{}
 	DB.Where(&cred).First(&userValue)
-
+	fmt.Println(userValue, cred)
 	if userValue.Name != cred.Name {
 		return c.JSON(&fiber.Map{
 			"success": false,

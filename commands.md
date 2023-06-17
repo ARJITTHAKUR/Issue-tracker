@@ -1,1 +1,1 @@
- CompileDaemon -command="./ISSUE-TRACKER"
+CompileDaemon -command="./ISSUE-TRACKER"
