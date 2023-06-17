@@ -4,6 +4,9 @@ export default function DashBoardPage(){
     <header>
         <span>logout</span>
     </header>
+    <main>
         Dashboard
+
+    </main>
     </>
 }

@@ -4,6 +4,9 @@ import LoginPage from './pages/login'
 import DashBoardPage from './pages/dashboard'
 import NotFound from './pages/notFound'
 import "../src/styles/globalstyle.css"
+import Toast from "./components/UI/toast/toast"
+import { ToastContext } from "./context/toastContext"
+import { useState } from "react"
 const router = createBrowserRouter([
   {
     path : '/',
@@ -21,8 +24,17 @@ const router = createBrowserRouter([
     element : <NotFound/>
   }
 ])
-function App() {
 
+function App() {
+const [toggleToast, setToggleToast] = useState(false);
+function showToast (){
+  setToggleToast(true)
+  const timer = setTimeout(()=>{
+    setToggleToast(false)
+    clearTimeout(timer)
+  },3000)
+
+}
   return (
     <>
     {/* <nav>
@@ -39,7 +51,13 @@ function App() {
       <Route path="*" element={<NotFound/>}/>
 
     </Routes> */}
+    <ToastContext.Provider value={{showToast}}>
+
     <RouterProvider router={router}/>
+    {toggleToast &&
+      <Toast/>
+      }
+    </ToastContext.Provider>
     </>
   )
 }
