@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/go-playground/validator"
@@ -18,7 +19,7 @@ type ErrorResponse struct {
 }
 
 type userCreds struct {
-	Name string `validate:"required"`
+	Name string `validate:"required" json:"name"`
 }
 
 var validate = validator.New()
@@ -64,14 +65,14 @@ func GetUser(c *fiber.Ctx) error {
 func Login(c *fiber.Ctx) error {
 
 	cred := userCreds{}
-	fmt.Println(c.Body())
+	fmt.Println(json.Marshal(c.Body()))
 	if err := c.BodyParser(&cred); err != nil {
 		return c.JSON(&fiber.Map{
 			"message": "parsing error",
 			"success": false,
 		})
 	}
-	// fmt.Println(cred)
+	fmt.Println("user credentials", cred)
 	errors := ValidateStruct(cred)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)

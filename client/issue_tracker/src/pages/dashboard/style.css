@@ -1,7 +1,69 @@
 header{
-    padding : 5px;
-    background-color: darkslateblue;
+    padding :10px;
+    background-color: cornflowerblue;
     color: white;
     /* font-weight: 400; */
     font-size: larger;
+    text-align: center;
+    border-bottom: 1px solid grey;
+}
+main{
+    display: flex;
+    justify-content: center;
+    gap: 2;
+    /* flex-direction: column; */
+}
+section {
+    display: flex;
+    /* justify-content: flex-start; */
+    flex-direction: column;
+    border : 1px solid lightslategray;
+    width: 35%;
+    height: 80vh;
+    margin : 2em;
+    border-radius: 5px;
+}
+
+.label {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0px;
+    background-color: cornflowerblue;
+    color: whitesmoke;
+}
+
+.create-project{
+    width: 100%;
+    all:unset;
+    padding: 10px 5px;
+    background-color: cornflowerblue;
+    /* border-radius: 5px; */
+    color: white;
+    font-size: medium;
+    text-align: center;
+    /* border: 1.5px solid black; */
+}
+.create-project:hover{
+    background-color: dodgerblue;
+}
+.button-full{
+    width: 100%;
+}
+
+.listing{
+    height: 100%;
+}
+
+ul{
+    all: unset;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4;
+}
+
+li{
+    padding: 15px 15px;
+    border-bottom: 1px solid lightslategray;
+    cursor: pointer;
 }

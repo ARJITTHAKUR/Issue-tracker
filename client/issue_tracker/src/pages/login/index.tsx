@@ -3,18 +3,17 @@ import "./style.css";
 import Button from "../../components/UI/button/button";
 import axios, { AxiosError } from "axios";
 import { useContext, useRef, useState } from "react";
-import Toast from "../../components/UI/toast/toast";
-import { errorToast } from "../../services/toastService";
+
 import { ToastContext } from "../../context/toastContext";
 export default function LoginPage() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const toastContext = useContext(ToastContext)
   const loginFunc = async()=>{
-    const body : {name ?: string | null} = {}
+    const body : any = {}
     body.name = inputRef?.current?.value as string;
     try {
-      const res = await axios.post("http://127.0.0.1:3000/api/user/login",JSON.stringify(body))
+      const res = await axios.post("http://127.0.0.1:3000/api/user/login",body)
     console.log(res)
     if(res.status !== 200){
       throw('login error occured')}
