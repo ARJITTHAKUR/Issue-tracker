@@ -1,10 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./style.css"
+import AddProjectForm from "./dialogForm";
 export default function DashBoardPage(){
-
-    const modalRef = useRef<HTMLDialogElement>(null)
+    const [toggleForm, setToggleForm] = useState(false);
     const addProject = ()=>{
-        modalRef?.current?.showModal()
+        setToggleForm(prev=>!prev)
     }
     return (
       <>
@@ -28,10 +28,7 @@ export default function DashBoardPage(){
             <div className="label">Project Data</div>
           </section>
         </main>
-        <dialog ref={modalRef}>
-            hi there
-            <button onClick={()=>modalRef.current?.close()}>cancel</button>
-        </dialog>
+        <AddProjectForm toggle={toggleForm} setToggle={setToggleForm}/>
       </>
     );
 }
