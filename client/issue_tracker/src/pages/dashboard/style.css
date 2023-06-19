@@ -129,6 +129,9 @@ label {
     font-family: inherit;
     color: darkblue;
 }
+/* [data-tooltip]::after {
+    content: attr(data-tooltip);
+} */
 
 .create-project-submit {
     display: block;
@@ -144,4 +147,8 @@ label {
 
 .create-project-submit :hover{
     background-color: darkblue;
+}
+
+input {
+    border: 1px solid darkblue;
 }

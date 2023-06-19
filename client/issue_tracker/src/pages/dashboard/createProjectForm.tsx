@@ -14,7 +14,7 @@ export default function CreateProjectForm({submit}:props){
     <div className="project-form-container">
 
     <form onSubmit={handleSubmit}>
-        <label htmlFor="projectname">Project Name</label>
+        <label htmlFor="projectname" data-tooltip="Enter Project Name in the below field" className="project-name">Project Name</label>
         <input type="text" name="projectname" id="" />
         <br />
         <label htmlFor="startdate">Start Date</label>
