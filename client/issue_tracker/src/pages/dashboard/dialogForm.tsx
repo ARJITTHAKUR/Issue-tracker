@@ -29,8 +29,7 @@ export default function AddProjectForm({toggle, setToggle}:props){
     return <>
           <dialog ref={modalRef}>
             <h3>Add New Project Details</h3>
-            <CreateProjectForm submit={formSubmit}/>
-            <button className="modal-cancel" onClick={()=>closeModal()}>cancel</button>
+            <CreateProjectForm submit={formSubmit} cancel={()=>closeModal()}/>
             {/* <button className="modal-create">Create Button</button> */}
         </dialog>
     </>

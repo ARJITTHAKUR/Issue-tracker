@@ -37,3 +37,21 @@ func CreateProject(c *fiber.Ctx) error {
 		"userId":   tmpUser.ID,
 	})
 }
+
+func GetProjects(c *fiber.Ctx) error {
+	user := User{}
+
+	if err := c.BodyParser(&user); err != nil {
+		return err
+	}
+	// dbUser := User{}
+	project := []Project{}
+	DB.Find(&project).Where("id = ?", user.ID)
+	// if user.ID != project {
+	// 	c.SendString("incorrect user")
+	// }
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"projects": project,
+		"user":     user,
+	})
+}
