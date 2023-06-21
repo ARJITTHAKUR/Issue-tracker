@@ -46,7 +46,7 @@ func GetProjects(c *fiber.Ctx) error {
 	}
 	// dbUser := User{}
 	project := []Project{}
-	DB.Find(&project).Where("id = ?", user.ID)
+	DB.Find(&project).Where("id <> ?", user.ID)
 	// if user.ID != project {
 	// 	c.SendString("incorrect user")
 	// }

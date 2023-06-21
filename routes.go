@@ -23,6 +23,6 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Post("/login", Login)
 
-	// api.Post("/getProjects", GetProjects)
+	api.Post("/getProjects", GetProjects)
 
 }
