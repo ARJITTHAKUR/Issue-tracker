@@ -1,9 +1,7 @@
-version: "2"
-sql:
-  - engine: "postgresql"
+version: 1
+packages:
+  - engine: "mysql"
     queries: "query.sql"
     schema: "schema.sql"
-    gen:
-      go:
-        package: "tutorial"
-        out: "tutorial"
+    path : "sql"
+    name : "sql"
