@@ -7,6 +7,8 @@ import "../src/styles/globalstyle.css"
 import Toast from "./components/UI/toast/toast"
 import { ToastContext } from "./context/toastContext"
 import { useState } from "react"
+import Project from "./pages/project"
+import { RecoilRoot } from "recoil"
 const router = createBrowserRouter([
   {
     path : '/',
@@ -16,9 +18,10 @@ const router = createBrowserRouter([
     path : '/dashboard',
     Component : DashBoardPage
   },
-  // {
-  //   path : '/project'
-  // }
+  {
+    path : '/project/:id',
+    Component : Project
+  },
   {
     path : '*',
     element : <NotFound/>
@@ -51,13 +54,16 @@ function showToast (){
       <Route path="*" element={<NotFound/>}/>
 
     </Routes> */}
+    <RecoilRoot>
+
     <ToastContext.Provider value={{showToast}}>
 
     <RouterProvider router={router}/>
     {toggleToast &&
       <Toast/>
-      }
+    }
     </ToastContext.Provider>
+    </RecoilRoot>
     </>
   )
 }

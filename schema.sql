@@ -1,3 +1,4 @@
+-- name: CreateUser :exec
 CREATE TABLE users (
     PRIMARY KEY (ID),
     created_at TIMESTAMP NOT NULL,
@@ -5,4 +6,6 @@ CREATE TABLE users (
     name TEXT NOT NULL
 );
 
--- DROP TABLE users;
+-- name: GetUser :one
+SELECT * FROM users
+WHERE id = ? LIMIT 1;
