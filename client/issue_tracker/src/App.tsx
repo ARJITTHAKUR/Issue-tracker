@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     Component : DashBoardPage
   },
   {
-    path : '/project',
+    path : '/project/:id',
     Component : Project
   },
   {

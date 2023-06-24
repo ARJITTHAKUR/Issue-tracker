@@ -4,7 +4,7 @@ import AddProjectForm from "./dialogForm";
 import axios, { Axios } from "axios";
 import { apis } from "../../const/api-const";
 import { ProjectListInterface, Projects, formState } from "./interfaces";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CreateProjectForm from "./createProjectForm";
 import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
@@ -15,7 +15,7 @@ export default function DashBoardPage() {
   const [toggleForm, setToggleForm] = useState(false);
   const [projectList, setProjectList] = useState<Projects[]>([]);
   const [user, setUser] = useRecoilState(currentUser) 
-
+  const navigate = useNavigate();
 
   const addProject = () => {
     setToggleForm((prev) => !prev);
@@ -30,7 +30,7 @@ export default function DashBoardPage() {
     setProjectList(listData);
   };
 
-  
+
   async function createProject(data: formState) {
     console.log({ data });
     let payload = {...data,
@@ -51,6 +51,10 @@ export default function DashBoardPage() {
 
     }
   }
+
+  const navigateToProject=(id : number)=>{
+    navigate(`/project/${id}`)
+  }
   // init
   useEffect(() => {
     fetchProjects();
@@ -70,7 +74,7 @@ export default function DashBoardPage() {
               {projectList.map((list) => {
                 return (
                   <>
-                    <li key={list.UserId}>{list?.Name}</li>
+                    <li key={list.UserId} onClick={()=>navigateToProject(list.ID)}>{list?.Name}</li>
                   </>
                 );
               })}
