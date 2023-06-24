@@ -52,6 +52,7 @@ section {
 
 .listing{
     height: 100%;
+    overflow-y: scroll;
 }
 
 ul{
@@ -124,6 +125,7 @@ input[type="text"]{
 input[type="date"]{
     /* width:100%; */
     margin-left: 1rem;
+    font-size: large;
     /* height : 1rem */
 }
 label {
@@ -141,7 +143,7 @@ label {
 .create-project-submit {
     display: block;
     float: right;
-    padding : 5px 10px;
+    padding : 0.6rem 1rem;
     margin : 5px 0px;
     background-color: cornflowerblue;
     color :whitesmoke;
@@ -149,6 +151,8 @@ label {
     border : none;
     /* font: inherit; */
     font-size: medium;
+    font-weight: 600;
+    cursor: pointer;
 
 }
 
@@ -171,4 +175,13 @@ input {
 
 .form-container{
     width: 100%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: larger;
+    font-weight: 700;
+    color: rgb(71, 71, 71);
 }

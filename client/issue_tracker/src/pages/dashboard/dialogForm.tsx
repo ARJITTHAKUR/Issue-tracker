@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react"
+import { ReactComponentElement, useEffect, useRef } from "react"
 import CreateProjectForm from "./createProjectForm"
 
 interface props{
     toggle : boolean,
-    setToggle : React.Dispatch<React.SetStateAction<boolean>>
+    setToggle : React.Dispatch<React.SetStateAction<boolean>>,
+    component ?: JSX.Element,
+    heading : string,
+    children : JSX.Element
 }
-export default function AddProjectForm({toggle, setToggle}:props){
+export default function DashBoardDialog({toggle, setToggle, component, heading ,children}:props){
     const modalRef = useRef<HTMLDialogElement>(null)
     const closeModal = ()=>{
         setToggle(false)
@@ -23,14 +26,15 @@ export default function AddProjectForm({toggle, setToggle}:props){
         })   
     },[modalRef.current])
 
-    function formSubmit(data : object){
-        console.log({data})
-    } 
+   
     return <>
           <dialog ref={modalRef}>
-            <h3>Add New Project Details</h3>
-            <CreateProjectForm submit={formSubmit} cancel={()=>closeModal()}/>
-            {/* <button className="modal-create">Create Button</button> */}
+            <div className="modal-header">
+                <span>{heading}</span>
+                <span style={{cursor :'pointer'}} onClick={closeModal}>X</span>
+            </div>
+            {/* {component} */}
+            {children}
         </dialog>
     </>
 }

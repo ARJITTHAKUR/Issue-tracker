@@ -1,6 +1,6 @@
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import NotFound from "../../pages/notFound";
-import DashBoardPage from "../../pages/dashboard";
+import DashBoardPage from "../../pages/dashboard/dashBoardPage";
 
 export default function RootLayout() {
   return (

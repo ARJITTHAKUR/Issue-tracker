@@ -17,10 +17,12 @@ type User struct {
 
 type Project struct {
 	gorm.Model
-	ID        uint `gorm:"primaryKey"`
-	Name      string
+	ID        uint   `gorm:"primaryKey"`
+	Name      string `json:"Name",validate:"required"`
 	UserId    uint
-	Tasks     []Task `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Tasks     []Task    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	StartDate time.Time `json:"startDate"`
+	EndDate   time.Time `json:"endDate"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

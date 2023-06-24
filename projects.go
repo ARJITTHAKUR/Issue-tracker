@@ -3,24 +3,54 @@ package main
 import (
 	"fmt"
 
+	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
-func CreateProject(c *fiber.Ctx) error {
-	tmpProject := new(Project)
+type project struct {
+	Name string `validate:"required" json:"projectName"`
+}
 
-	if err := c.BodyParser(tmpProject); err != nil {
+var projectValidate = validator.New()
+
+func validateStruct(project Project) []*ErrorResponse {
+	var errors []*ErrorResponse
+
+	err := projectValidate.Struct(project)
+
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			var element ErrorResponse
+			element.FailedField = err.StructNamespace()
+			element.Tag = err.Tag()
+			element.Value = err.Param()
+			errors = append(errors, &element)
+		}
+	}
+	return errors
+}
+func CreateProject(c *fiber.Ctx) error {
+	tmpProject := Project{}
+
+	if err := c.BodyParser(&tmpProject); err != nil {
 		fmt.Println(err)
-		c.JSON(&fiber.Map{
+		return c.JSON(&fiber.Map{
 			"success": false,
 			"message": "Error occured",
+			"error":   err.Error(),
 		})
-		return err
+		// return err
 	}
+
+	// check for validation errors
+	errors := validateStruct(tmpProject)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+	}
+
+	// check if the project queried has same user id
 	tmpUser := new(User)
-	// fmt.Println(tmpProject, tmpUser, tmpProject.UserId)
 	res := DB.First(&tmpUser, "id = ?", tmpProject.UserId) // the user from the project and check if it is equal to user id sent in project
-	// DB.Model(&User{}).Find(&Map[string]string)
 	if res.Error != nil && tmpUser.ID != tmpProject.UserId {
 		return c.JSON(&fiber.Map{
 			"success": false,
@@ -29,12 +59,29 @@ func CreateProject(c *fiber.Ctx) error {
 	}
 	fmt.Println(res.RowsAffected, tmpUser)
 
+	// check duplicate project
+	var exist bool = false
+	existError := DB.
+		Model(Project{}).
+		Select("count(*)>0").
+		Where("name = ?", tmpProject.Name).
+		Find(&exist).Error
+
+	if exist || existError != nil {
+		fmt.Println(existError)
+		fmt.Println("exist==>", exist)
+		return c.JSON(&fiber.Map{
+			"message": "project already exsists",
+			"success": false,
+		})
+	}
 	DB.Create(&tmpProject)
 	return c.JSON(&fiber.Map{
 		"success":  true,
-		"meassage": "user created",
+		"meassage": "project created",
 		"userName": tmpUser.Name,
 		"userId":   tmpUser.ID,
+		"project":  tmpProject,
 	})
 }
 

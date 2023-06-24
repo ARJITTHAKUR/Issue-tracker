@@ -2,8 +2,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./style.css";
 import Button from "../../components/UI/button/button";
 import axios, { AxiosError } from "axios";
-import { useContext, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useRecoilState,useSetRecoilState } from "recoil";
 
 import { ToastContext } from "../../context/toastContext";
 import { currentUser } from "../../store/store";
@@ -13,13 +13,14 @@ interface LoginResponse {
   success: boolean;
   user: {
     Name: string;
+    id : number
   };
 }
 export default function LoginPage() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const toastContext = useContext(ToastContext);
-  const [user, setUser] = useRecoilState(currentUser);
+  const [user,setNewUser] = useRecoilState(currentUser) 
 
   const loginFunc = async () => {
     const body: any = {};
@@ -29,11 +30,12 @@ export default function LoginPage() {
         "http://127.0.0.1:3000/api/user/login",
         body
       );
-      console.log(res);
       if (res.status !== 200) {
         throw "login error occured";
       } else if (res.data.login) {
-        setUser(res.data.user.Name);
+        console.log(res)
+        console.log({user})
+        setNewUser({name : res.data.user.Name, id : res.data.user.id});
         navigate("/dashboard");
       }
     } catch (error: any) {
@@ -41,6 +43,9 @@ export default function LoginPage() {
       toastContext?.showToast?.();
     }
   };
+  // useEffect(()=>{
+  //   console.log({user})
+  // },[user])
   return (
     <>
       <NavLink to={"/dashboard"}>dashboard</NavLink>

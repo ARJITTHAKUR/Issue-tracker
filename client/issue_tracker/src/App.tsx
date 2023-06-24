@@ -1,13 +1,13 @@
 
 import { Route, Routes, NavLink, createBrowserRouter, RouterProvider} from "react-router-dom"
-import LoginPage from './pages/login'
-import DashBoardPage from './pages/dashboard'
+import LoginPage from './pages/login/login'
+import DashBoardPage from './pages/dashboard/dashBoardPage'
 import NotFound from './pages/notFound'
 import "../src/styles/globalstyle.css"
 import Toast from "./components/UI/toast/toast"
 import { ToastContext } from "./context/toastContext"
 import { useState } from "react"
-import Project from "./pages/project"
+import Project from "./pages/project/projectPage"
 import { RecoilRoot } from "recoil"
 const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     Component : DashBoardPage
   },
   {
-    path : '/project/:id',
+    path : '/project',
     Component : Project
   },
   {

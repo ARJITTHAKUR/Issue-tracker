@@ -49,8 +49,20 @@ func CreateUser(c *fiber.Ctx) error {
 		return err
 	}
 	fmt.Println(tempUserStruct)
-	DB.Create(&tempUserStruct)
-	return c.SendString("User created")
+	var exist bool = false
+	existError := DB.Model(User{}).Select("count(*)>0").Where("name = ?", tempUserStruct.Name).Find(exist).Error
+
+	if exist != false || existError != nil {
+		return c.JSON(&fiber.Map{
+			"message": "user already exsists",
+			"login":   false,
+		})
+	}
+	DB.Create(tempUserStruct)
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"user": tempUserStruct,
+	})
+	// return c.SendString("User created")
 }
 
 func GetUser(c *fiber.Ctx) error {
@@ -80,7 +92,7 @@ func Login(c *fiber.Ctx) error {
 	type user struct {
 		Name string
 	}
-	userValue := user{}
+	userValue := User{}
 	DB.Where(&cred).First(&userValue)
 	fmt.Println(userValue, cred)
 	if userValue.Name != cred.Name {

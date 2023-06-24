@@ -11,3 +11,10 @@ export interface Projects {
   CreatedAt: Date;
   UpdatedAt: Date;
 }
+
+export interface formState {
+  projectname : string,
+  startDate : Date,
+  endDate : Date,
+  description : string 
+}
