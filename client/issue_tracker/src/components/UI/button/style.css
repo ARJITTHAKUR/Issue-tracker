@@ -1,12 +1,13 @@
 .btn-class{
     all:unset;
     padding: 8px 5px;
-    background-color: darkslateblue;
+    background-color: cornflowerblue;
     border-radius: 5px;
     color: white;
     font-size: medium;
     text-align: center;
     border: 1.5px solid black;
+    cursor: pointer;
 }
 
 .btn-class:hover {
