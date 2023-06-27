@@ -57,3 +57,21 @@ func Createtask(c *fiber.Ctx) error {
 	})
 
 }
+
+func GetTasks(c *fiber.Ctx) error {
+	// get project id from params
+
+	id := c.Params("id")
+
+	var tasks []Task
+	err := DB.Where("project_Id = ?", id).Find(&tasks).Error
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"tasks": tasks,
+	})
+
+}

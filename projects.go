@@ -74,20 +74,17 @@ func CreateProject(c *fiber.Ctx) error {
 }
 
 func GetProjects(c *fiber.Ctx) error {
-	user := User{}
+	id := c.Params("id")
+	fmt.Println("id : => ", id)
+	var projects []Project
+	// err := DB.Debug().Where("user_id <> ?", string(id)).Find(&projects).Error
+	err := DB.Raw("SELECT * FROM projects WHERE user_id = ?", id).Scan(&projects).Error
 
-	if err := c.BodyParser(&user); err != nil {
-		return err
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
-	// dbUser := User{}
-	project := []Project{}
-	DB.Find(&project).Where("id <> ?", user.ID)
-	// if user.ID != project {
-	// 	c.SendString("incorrect user")
-	// }
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"projects": project,
-		"user":     user,
+		"projects": projects,
 	})
 }
 
