@@ -27,4 +27,6 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Get("/getTasks/:id", GetTasks)
 
+	api.Put("/deleteProject/:id", DeleteProject)
+
 }

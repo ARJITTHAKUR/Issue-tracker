@@ -95,15 +95,15 @@ func DeleteProject(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("error occured")
 	}
-	var project = Project{ID: uint(projectId)}
-	deleteErr := DB.Delete(&project).Error
+	project := Project{ID: uint(projectId)}
+	deleteErr := DB.Debug().Delete(&project).Error
 
 	if deleteErr != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("error occured during deletion")
+		return c.Status(fiber.StatusInternalServerError).SendString(deleteErr.Error())
 	}
 
 	var projects []Project
-	findError := DB.Where("user_id = ?", projectId).Find(projects).Error
+	findError := DB.Raw("SELECT * FROM projects WHERE id = ?", projectId).Scan(&projects).Error
 
 	if findError != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{"err": findError.Error()})
