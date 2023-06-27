@@ -43,7 +43,8 @@ func DbConnectNew() {
 	// dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
 	dsn := connStr
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: newLogger,
+		Logger:         newLogger,
+		TranslateError: true,
 	})
 
 	if err != nil {

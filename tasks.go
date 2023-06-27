@@ -3,61 +3,57 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func Createtask(c *fiber.Ctx) error {
-	type task struct {
-		ProjectID   uint
-		Description string
-		UserID      uint
-	}
-	tempTask := task{}
+	// type task struct {
+	// 	ProjectID   uint   `json:"projectId"`
+	// 	Description string `json:"description"`
+	// 	UserID      uint   `json:"userId"`
+	// 	Status      string `json:"status"`
+	// 	Priority    string `json:"priority"`
+	// }
+	tempTask := Task{}
 	if err := c.BodyParser(&tempTask); err != nil {
-		log.Fatal(err)
-		c.JSON(&fiber.Map{
+		return c.JSON(&fiber.Map{
 			"success": false,
 			"message": "body parsing failed",
 		})
-		return err
+
 	}
-	fmt.Println("json body ==>", tempTask)
 
 	tempProject := new(Project)
 	type project struct {
 		ID uint
 	}
-	res := DB.Where(&project{ID: tempTask.ProjectID}).First(&tempProject) // temp project struct for where query and mutation in complete shape
-	fmt.Println("queried ==>", tempProject)
+	resError := DB.Where(project{ID: tempTask.ProjectID}).First(tempProject).Error // temp project struct for where query and mutation in complete shape
 
-	if res.Error != nil || tempProject.ID != tempTask.ProjectID { // proper error handling
-		var err error // error variable
-		if res.RowsAffected == 0 {
-			fmt.Println("rows effected ==> ", res.RowsAffected)
-			err = errors.New("project not found")
+	fmt.Printf("queried: %+v\n", tempProject)
+
+	if resError != nil {
+		if errors.Is(resError, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusInternalServerError).SendString(resError.Error())
 		} else {
-			err = res.Error
+			return c.Status(fiber.StatusInternalServerError).SendString(resError.Error())
 		}
-		return c.JSON(&fiber.Map{ // return statement for request
-			"success": false,
-			"message": err.Error(),
-		})
+	}
+	task := Task{
+		ProjectID:   tempTask.ProjectID,
+		Description: tempTask.Description,
+		Status:      tempTask.Status,
+		Priority:    tempTask.Priority,
+	}
+	taskErr := DB.Create(&task).Error
+
+	if taskErr != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(taskErr.Error())
 	}
 
-	// create a task
-
-	res = DB.Create(tempTask)
-	if res.Error != nil {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": res.Error,
-		})
-	}
-
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"message": "task created successfully",
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"task": task,
 	})
+
 }

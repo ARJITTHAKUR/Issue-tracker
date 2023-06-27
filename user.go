@@ -3,9 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	// "gorm.io/gorm"
 )
 
@@ -42,27 +44,38 @@ func ValidateStruct(user userCreds) []*ErrorResponse {
 }
 
 func CreateUser(c *fiber.Ctx) error {
-	tempUserStruct := &User{}
+	tempUserStruct := User{}
 
-	if err := c.BodyParser(tempUserStruct); err != nil {
+	if err := c.BodyParser(&tempUserStruct); err != nil {
 		println(err.Error())
 		return err
 	}
-	fmt.Println(tempUserStruct)
-	var exist bool = false
-	existError := DB.Model(User{}).Select("count(*)>0").Where("name = ?", tempUserStruct.Name).Find(exist).Error
+	fmt.Printf("json %+v\n", tempUserStruct)
+	findErr := DB.Where("name = ?", tempUserStruct.Name).First(&tempUserStruct).Error
+	fmt.Println(findErr)
+	if findErr == gorm.ErrRecordNotFound {
+		fmt.Println("not found", findErr)
+		newUser := User{
+			Name: tempUserStruct.Name,
+		}
+		createuser := DB.Create(&newUser)
+		if createuser.Error != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"error": createuser.Error.Error(),
+			})
+		} else {
+			return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+				"user": newUser,
+			})
+		}
 
-	if exist != false || existError != nil {
+	} else {
+		fmt.Println("else block")
 		return c.JSON(&fiber.Map{
-			"message": "user already exsists",
-			"login":   false,
+			"error": "User already exsits",
 		})
 	}
-	DB.Create(tempUserStruct)
-	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-		"user": tempUserStruct,
-	})
-	// return c.SendString("User created")
+
 }
 
 func GetUser(c *fiber.Ctx) error {
@@ -89,9 +102,7 @@ func Login(c *fiber.Ctx) error {
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
 	}
-	type user struct {
-		Name string
-	}
+
 	userValue := User{}
 	DB.Where(&cred).First(&userValue)
 	fmt.Println(userValue, cred)
@@ -104,7 +115,10 @@ func Login(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"login":   true,
-		"user":    userValue,
+		"user": map[string]string{
+			"Name": userValue.Name,
+			"ID":   strconv.FormatUint(uint64(userValue.ID), 10),
+		},
 	})
 
 }

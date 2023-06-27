@@ -8,9 +8,8 @@ import (
 
 type User struct {
 	gorm.Model
-	ID        uint `gorm:"primaryKey"`
-	Name      string
-	Projects  []Project `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ID        uint   `json:"userId",gorm:"primaryKey"`
+	Name      string `json:"name"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -18,8 +17,9 @@ type User struct {
 type Project struct {
 	gorm.Model
 	ID        uint   `gorm:"primaryKey"`
-	Name      string `json:"Name",validate:"required"`
+	Name      string `json:"projectname" validate:"required" gorm:"unique:compositeindex;type:text;not null"`
 	UserId    uint
+	User      User
 	Tasks     []Task    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	StartDate time.Time `json:"startDate"`
 	EndDate   time.Time `json:"endDate"`
@@ -31,6 +31,8 @@ type Task struct {
 	ID          uint `gorm:"primaryKey"`
 	ProjectID   uint
 	Description string
+	Status      string `json:"status"`
+	Priority    string `json:"priority"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

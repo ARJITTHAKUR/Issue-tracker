@@ -13,7 +13,7 @@ func main() {
 	// LogData()
 
 	DbConnectNew()
-
+	// DB.Migrator().DropTable(&User{}, &Project{}, &Task{})
 	RoutesSetup(app) // all user routes setups
 
 	app.Listen(":3000")

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
@@ -47,42 +48,29 @@ func CreateProject(c *fiber.Ctx) error {
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
 	}
+	//check db is if the user exists
+	// check db if project with this name already exists
+	var user User
+	user.ID = tmpProject.UserId
+	userRes := DB.First(&user)
 
-	// check if the project queried has same user id
-	tmpUser := new(User)
-	res := DB.First(&tmpUser, "id = ?", tmpProject.UserId) // the user from the project and check if it is equal to user id sent in project
-	if res.Error != nil && tmpUser.ID != tmpProject.UserId {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": "user not found",
-		})
+	if userRes.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("user not found")
 	}
-	fmt.Println(res.RowsAffected, tmpUser)
-
-	// check duplicate project
-	var exist bool = false
-	existError := DB.
-		Model(Project{}).
-		Select("count(*)>0").
-		Where("name = ?", tmpProject.Name).
-		Find(&exist).Error
-
-	if exist || existError != nil {
-		fmt.Println(existError)
-		fmt.Println("exist==>", exist)
-		return c.JSON(&fiber.Map{
-			"message": "project already exsists",
-			"success": false,
-		})
+	if userRes.RowsAffected == 1 && user.ID != tmpProject.UserId {
+		return c.Status(fiber.StatusInternalServerError).SendString("this project doesn't belong to this user")
 	}
-	DB.Create(&tmpProject)
-	return c.JSON(&fiber.Map{
-		"success":  true,
-		"meassage": "project created",
-		"userName": tmpUser.Name,
-		"userId":   tmpUser.ID,
-		"project":  tmpProject,
-	})
+
+	// now check to see if the project name exists
+	project := Project{Name: tmpProject.Name, UserId: tmpProject.UserId, StartDate: tmpProject.StartDate, EndDate: tmpProject.EndDate}
+	result := DB.Create(&project)
+
+	if result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{"error": result.Error.Error()})
+	} else {
+		return c.Status(fiber.StatusOK).JSON(&fiber.Map{"message": "project created", "project": project})
+	}
+
 }
 
 func GetProjects(c *fiber.Ctx) error {
@@ -101,4 +89,31 @@ func GetProjects(c *fiber.Ctx) error {
 		"projects": project,
 		"user":     user,
 	})
+}
+
+func DeleteProject(c *fiber.Ctx) error {
+	// get id
+	projectId, err := strconv.Atoi(c.Params("id"))
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("error occured")
+	}
+	var project = Project{ID: uint(projectId)}
+	deleteErr := DB.Delete(&project).Error
+
+	if deleteErr != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("error occured during deletion")
+	}
+
+	var projects []Project
+	findError := DB.Where("user_id = ?", projectId).Find(projects).Error
+
+	if findError != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{"err": findError.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+		"projects": projects,
+	})
+	// return c.Status(fiber.StatusOK).SendString("project deleted")
 }
