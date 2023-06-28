@@ -54,7 +54,7 @@ export default function DashBoardPage() {
 
   const navigateToProject = (id: number) => {
     const selectedProject = projectList.find(ele=>ele.ID === id)
-    setCurrentSelectedProject(prev => selectedProject)
+    setCurrentSelectedProject(prev => selectedProject as any)
     navigate(`/project/${id}`);
   };
   // init

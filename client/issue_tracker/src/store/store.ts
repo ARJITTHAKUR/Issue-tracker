@@ -14,10 +14,16 @@ export const currentUser = atom({
   } satisfies user,
 });
 
-type project = object | null
+type project = Project | null
 export const currentProject = atom({
   key : "currentProject",
   default : {
-     
+    DeletedAt: new Date(),
+    ID: 0,
+    projectname: '',
+    UserId: 0,
+    Tasks: [],
+    CreatedAt: new Date(),
+    UpdatedAt:new Date(),
   } satisfies project
 })

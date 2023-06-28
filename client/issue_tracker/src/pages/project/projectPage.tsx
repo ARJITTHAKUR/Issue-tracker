@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { currentUser } from "../../store/store";
+import { currentProject, currentUser } from "../../store/store";
 import { useRecoilState, useRecoilValue } from "recoil";
 import DragNDropTasks from "./dragNdropTasks";
 import DialogForm from "../dashboard/dialogForm";
@@ -14,6 +14,8 @@ export default function Project() {
   const userVal = useRecoilValue(currentUser);
   const [toggleForm, setToggleForm] = useState(false);
   const [taskList, setTaskList] = useState([]);
+  const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
+
   const logUser = () => {
     console.log({ user });
   };
@@ -24,8 +26,13 @@ export default function Project() {
 
   const createTask = async(data : any)=>{
     console.log(data);
+    const payload = {
+      ...data,
+      projectID : currentSelectedProject.ID,
+      userID: currentSelectedProject.UserId,
+    }
     try {
-        let res = await axios.post(apis.CREATE_TASK,data)
+        let res = await axios.post(apis.CREATE_TASK,payload)
 
         if(res.status){
             console.log({res})
