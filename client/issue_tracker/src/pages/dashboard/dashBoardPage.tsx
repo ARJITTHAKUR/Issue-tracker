@@ -3,62 +3,64 @@ import "./style.css";
 import AddProjectForm from "./dialogForm";
 import axios, { Axios } from "axios";
 import { apis } from "../../const/api-const";
-import { ProjectListInterface, Projects, formState } from "./interfaces";
+import { ProjectListInterface, Project, formState } from "./interfaces";
 import { NavLink, useNavigate } from "react-router-dom";
 import CreateProjectForm from "./createProjectForm";
 import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
 import { useRecoilState } from "recoil";
-import { currentUser } from "../../store/store";
+import { currentProject, currentUser } from "../../store/store";
 
 export default function DashBoardPage() {
   const [toggleForm, setToggleForm] = useState(false);
-  const [projectList, setProjectList] = useState<Projects[]>([]);
-  const [user, setUser] = useRecoilState(currentUser) 
+  const [projectList, setProjectList] = useState<Project[]>([]);
+  const [user, setUser] = useRecoilState(currentUser);
+  const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
   const navigate = useNavigate();
 
   const addProject = () => {
     setToggleForm((prev) => !prev);
   };
-  const fetchProjects = async () => {
-    const payload = {
-      id: user.id,
-    };
-    const res = await axios.post<ProjectListInterface>(apis.GET_PROJECTS, payload);
+  const getProjects = async () => {
+    const res = await axios.get<ProjectListInterface>(
+      `${apis.GET_PROJECTS}/${user.id}`
+    );
     console.log({ res });
     const listData = res.data.projects;
-    setProjectList(listData);
+    setProjectList((prev) => listData);
   };
-
 
   async function createProject(data: formState) {
     console.log({ data });
-    let payload = {...data,
-      startDate : new Date(data.startDate).toISOString(),
-      endDate : new Date(data.endDate).toISOString(),
-      userId: user.id}
+    let payload = {
+      ...data,
+      startDate: new Date(data.startDate).toISOString(),
+      endDate: new Date(data.endDate).toISOString(),
+      userId: Number(user.id),
+    };
+    console.log({ payload });
     try {
-      let res = await axios.post(apis.CREATE_PROJECT,payload)
-      console.log({res})
-      if(res.status){
-        console.log(res)
-        await fetchProjects()
+      let res = await axios.post(apis.CREATE_PROJECT, payload);
+      console.log({ res });
+      if (res.status) {
+        console.log(res);
+        await getProjects();
         setToggleForm((prev) => !prev);
-      }
-      else throw(res)
-    }
-    catch(err){
-
+      } else throw res;
+    } catch (err) {
+      console.error(err);
     }
   }
 
-  const navigateToProject=(id : number)=>{
-    navigate(`/project/${id}`)
-  }
+  const navigateToProject = (id: number) => {
+    const selectedProject = projectList.find(ele=>ele.ID === id)
+    setCurrentSelectedProject(prev => selectedProject)
+    navigate(`/project/${id}`);
+  };
   // init
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    getProjects();
+  }, [user]);
   return (
     <>
       <header>
@@ -71,10 +73,15 @@ export default function DashBoardPage() {
           <div className="label">Current Projects</div>
           <div className="listing">
             <ul>
-              {projectList.map((list) => {
+              {projectList?.map((list) => {
                 return (
                   <>
-                    <li key={list.UserId} onClick={()=>navigateToProject(list.ID)}>{list?.Name}</li>
+                    <li
+                      key={list.UserId}
+                      onClick={() => navigateToProject(list.ID)}
+                    >
+                      {list?.projectname}
+                    </li>
                   </>
                 );
               })}
@@ -93,7 +100,7 @@ export default function DashBoardPage() {
         setToggle={setToggleForm}
         // component={}
         heading="Add New Project"
-      > 
+      >
         {<CreateProjectForm submit={createProject} />}
       </DashBoardDialog>
     </>

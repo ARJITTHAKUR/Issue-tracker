@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { Project } from "../pages/dashboard/interfaces";
+import { object } from "zod";
 
 interface user {
   id: number ;
@@ -11,3 +13,11 @@ export const currentUser = atom({
     name: '',
   } satisfies user,
 });
+
+type project = object | null
+export const currentProject = atom({
+  key : "currentProject",
+  default : {
+     
+  } satisfies project
+})

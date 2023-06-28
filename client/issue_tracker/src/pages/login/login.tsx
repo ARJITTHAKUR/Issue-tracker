@@ -13,7 +13,7 @@ interface LoginResponse {
   success: boolean;
   user: {
     Name: string;
-    id : number
+    ID : number
   };
 }
 export default function LoginPage() {
@@ -33,9 +33,11 @@ export default function LoginPage() {
       if (res.status !== 200) {
         throw "login error occured";
       } else if (res.data.login) {
-        console.log(res)
-        console.log({user})
-        setNewUser({name : res.data.user.Name, id : res.data.user.id});
+        const {ID,Name} = res.data.user
+        // console.log(res)
+        // console.log({user})
+        setNewUser({name : Name, id : ID});
+        localStorage.setItem('user',JSON.stringify({name : Name, id : ID}))
         navigate("/dashboard");
       }
     } catch (error: any) {

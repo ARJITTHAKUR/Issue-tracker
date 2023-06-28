@@ -1,11 +1,11 @@
 export interface ProjectListInterface {
-  projects: Projects[];
+  projects: Project[];
   user: { [key: string]: any };
 }
-export interface Projects {
+export interface Project {
   DeletedAt: Date;
   ID: number;
-  Name: string;
+  projectname: string;
   UserId: number;
   Tasks: { [key: string]: any }[];
   CreatedAt: Date;

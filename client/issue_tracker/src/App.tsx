@@ -1,46 +1,61 @@
-
-import { Route, Routes, NavLink, createBrowserRouter, RouterProvider} from "react-router-dom"
-import LoginPage from './pages/login/login'
-import DashBoardPage from './pages/dashboard/dashBoardPage'
-import NotFound from './pages/notFound'
-import "../src/styles/globalstyle.css"
-import Toast from "./components/UI/toast/toast"
-import { ToastContext } from "./context/toastContext"
-import { useState } from "react"
-import Project from "./pages/project/projectPage"
-import { RecoilRoot } from "recoil"
+import {
+  Route,
+  Routes,
+  NavLink,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import LoginPage from "./pages/login/login";
+import DashBoardPage from "./pages/dashboard/dashBoardPage";
+import NotFound from "./pages/notFound";
+import "../src/styles/globalstyle.css";
+import Toast from "./components/UI/toast/toast";
+import { ToastContext } from "./context/toastContext";
+import { useEffect, useState } from "react";
+import Project from "./pages/project/projectPage";
+import { RecoilRoot, useRecoilState } from "recoil";
+import { currentUser } from "./store/store";
 const router = createBrowserRouter([
   {
-    path : '/',
-    Component : LoginPage,
+    path: "/",
+    Component: LoginPage,
   },
   {
-    path : '/dashboard',
-    Component : DashBoardPage
+    path: "/dashboard",
+    Component: DashBoardPage,
   },
   {
-    path : '/project/:id',
-    Component : Project
+    path: "/project/:id",
+    Component: Project,
   },
   {
-    path : '*',
-    element : <NotFound/>
-  }
-])
+    path: "*",
+    element: <NotFound />,
+  },
+]);
 
 function App() {
-const [toggleToast, setToggleToast] = useState(false);
-function showToast (){
-  setToggleToast(true)
-  const timer = setTimeout(()=>{
-    setToggleToast(false)
-    clearTimeout(timer)
-  },3000)
+  const [toggleToast, setToggleToast] = useState(false);
+  const [user,setNewUser] = useRecoilState(currentUser) 
 
-}
+  function showToast() {
+    setToggleToast(true);
+    const timer = setTimeout(() => {
+      setToggleToast(false);
+      clearTimeout(timer);
+    }, 3000);
+  }
+  
+  useEffect(() => {
+    const activeUser = JSON.parse(localStorage.getItem('user') || '{}')
+    console.log({activeUser})
+    if(activeUser.name){
+      setNewUser(activeUser)
+    }
+  }, []);
   return (
     <>
-    {/* <nav>
+      {/* <nav>
       <ul>
         <li><NavLink to={'/'}>login </NavLink></li>
         <li><NavLink to={'/dashboard'}>dashboard</NavLink></li>
@@ -54,18 +69,13 @@ function showToast (){
       <Route path="*" element={<NotFound/>}/>
 
     </Routes> */}
-    <RecoilRoot>
 
-    <ToastContext.Provider value={{showToast}}>
-
-    <RouterProvider router={router}/>
-    {toggleToast &&
-      <Toast/>
-    }
-    </ToastContext.Provider>
-    </RecoilRoot>
+      <ToastContext.Provider value={{ showToast }}>
+        <RouterProvider router={router} />
+        {toggleToast && <Toast />}
+      </ToastContext.Provider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
