@@ -5,15 +5,18 @@ import DragNDropTasks from "./dragNdropTasks";
 import DialogForm from "../dashboard/dialogForm";
 import TaskForm from "./taskForm";
 import Button from "../../components/UI/button/button";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { apis } from "../../const/api-const";
+import { Task } from "./interface";
+import CustomHeader from "../../components/UI/header/header";
+import NewDnD from "./newDnDtasks";
 
 export default function Project() {
   const [user, setUser] = useRecoilState(currentUser);
   
   const userVal = useRecoilValue(currentUser);
   const [toggleForm, setToggleForm] = useState(false);
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState<Task[]>([]);
   const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
 
   const logUser = () => {
@@ -36,22 +39,51 @@ export default function Project() {
 
         if(res.status){
             console.log({res})
+            setToggleForm(prev=>!prev)
         }
     } catch (error) {
-        
+      if(error instanceof AxiosError){
+        console.error(error)
+      }
     }
   }
 
+  const getTasks =async ()=>{
+    try {
+      const res = await axios.get(`${apis.GET_TASKS}/${user.id}`)
+      if(res.status){
+        console.log(res.data.tasks)
+        setTaskList(res.data.tasks)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(()=>{
+    getTasks()
+  },[user.id])
+  
   return (
     <>
-      projects current user {userVal.name}
-      <h1>{user.name}</h1>
+    <CustomHeader>
+      Projects current user {userVal.name}
+      {/* <h1>{user.name}</h1> */}
       {/* <button onClick={() => logUser()}>log user</button> */}
+    </CustomHeader>
       <div>
         <div>
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
         </div>
-        <DragNDropTasks />
+        {/* <DragNDropTasks /> */}
+        <ul>
+          {taskList.length && taskList.map((item)=> {
+            return <>
+            <li>{item.description}</li>
+            </>
+          })}
+        </ul>
+        <NewDnD/>
         <DialogForm
           toggle={toggleForm}
           setToggle={setToggleForm}
