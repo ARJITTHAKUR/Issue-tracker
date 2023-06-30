@@ -22,7 +22,7 @@ function Droppable(props: any) {
 
 function Draggable(props: any) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "draggable",
+    id: props.id,
   });
   const style = transform
     ? {
@@ -37,22 +37,36 @@ function Draggable(props: any) {
   );
 }
 export default function NewDnD() {
-  const [isDropped, setIsDropped] = useState(false);
-  const draggableMarkup = <Draggable>Drag me</Draggable>;
-
+  const [isDropped, setIsDropped] = useState({
+    one : false,
+    two : false
+  });
+  const draggableMarkup = <Draggable id={"one"}>Drag me</Draggable>;
+  const draggableMarkup_two = <Draggable id={"two"}>another drag me</Draggable>
   function handleDragEnd(event: any) {
-    if (event.over && event.over.id === "droppable") {
-      setIsDropped(true);
+    if (event.over ) {
+    
+    switch(event.over.id){
+      case 'one':
+         setIsDropped((prev: any)=>{return{...prev, one : true}})
+         break;
+      case 'two' :
+         setIsDropped(prev=>{return{...prev , two: true}})
+         break;
+        default : throw('unknown element') 
     }
+  }
   }
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      {!isDropped ? draggableMarkup : null}
+      {!isDropped.one ? draggableMarkup : null}
+      {!isDropped.two ? draggableMarkup_two : null}
       <Droppable>
         <div
           style={{ width: "200px", height: "200px", border: "1px solid red" }}
         >
-          {isDropped ? draggableMarkup : "drop here"}
+          {isDropped.one ? draggableMarkup : "drop here"}
+          {isDropped.two ? draggableMarkup_two : "drop here"}
         </div>
       </Droppable>
     </DndContext>
