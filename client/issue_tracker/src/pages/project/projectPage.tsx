@@ -28,7 +28,7 @@ export default function Project() {
 
 
   const createTask = async(data : any)=>{
-    console.log(data);
+    // console.log(data);
     const payload = {
       ...data,
       projectID : currentSelectedProject.ID,
@@ -52,7 +52,7 @@ export default function Project() {
     try {
       const res = await axios.get(`${apis.GET_TASKS}/${user.id}`)
       if(res.status){
-        console.log(res.data.tasks)
+        // console.log(res.data.tasks)
         setTaskList(res.data.tasks)
       }
     } catch (error) {
@@ -63,6 +63,9 @@ export default function Project() {
   useEffect(()=>{
     getTasks()
   },[user.id])
+  useEffect(()=>{
+    console.log({taskList})
+  },[taskList])
   
   return (
     <>
@@ -76,14 +79,15 @@ export default function Project() {
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
         </div>
         {/* <DragNDropTasks /> */}
-        <ul>
+        {/* <ul>
           {taskList.length && taskList.map((item)=> {
             return <>
             <li>{item.description}</li>
             </>
           })}
-        </ul>
-        <NewDnD/>
+        </ul> */}
+        {/* weird behaviour when removing length property from the list */}
+        {taskList.length >0 && <NewDnD tasks={taskList}/>} 
         <DialogForm
           toggle={toggleForm}
           setToggle={setToggleForm}

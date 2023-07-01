@@ -47,7 +47,7 @@ function App() {
   }
   
   useEffect(() => {
-    const activeUser = JSON.parse(localStorage.getItem('user') || '{}')
+    const activeUser = JSON.parse(sessionStorage.getItem('user') || '{}')
     console.log({activeUser})
     if(activeUser.name){
       setNewUser(activeUser)

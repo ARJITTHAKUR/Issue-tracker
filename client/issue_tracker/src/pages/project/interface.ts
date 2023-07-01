@@ -10,7 +10,7 @@ export interface formState {
     CreatedAt : Date,
     UpdatedAt : Date,
     priority : "high" | "highest" | "low" | "",
-    status : "planning" | "completed" | "inprogress",
+    status : "planning" | "completed" | "inprogress" | "",
     description : string,
     projectId : number
   }

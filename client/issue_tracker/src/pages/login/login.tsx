@@ -37,7 +37,7 @@ export default function LoginPage() {
         // console.log(res)
         // console.log({user})
         setNewUser({name : Name, id : ID});
-        localStorage.setItem('user',JSON.stringify({name : Name, id : ID}))
+        sessionStorage.setItem('user',JSON.stringify({name : Name, id : ID}))
         navigate("/dashboard");
       }
     } catch (error: any) {

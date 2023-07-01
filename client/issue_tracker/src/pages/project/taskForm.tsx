@@ -86,6 +86,7 @@ export default function TaskForm({submit} : props){
             <option value="planning">Planning</option>
             <option value="inprogress">In progress</option>
             <option value="completed">Completed</option>
+            <option value=""></option>
         </select>
 
         <label htmlFor="">Priority</label>
