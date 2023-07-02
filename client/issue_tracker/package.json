@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
+    "@heroicons/react": "^2.0.18",
     "axios": "^1.4.0",
+    "heroicons": "^2.0.18",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",

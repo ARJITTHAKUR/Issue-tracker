@@ -10,6 +10,9 @@ import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
 import { useRecoilState } from "recoil";
 import { currentProject, currentUser } from "../../store/store";
+import { DocumentTextIcon } from "@heroicons/react/24/outline";
+import { FolderPlusIcon } from "@heroicons/react/24/solid";
+import {TrashIcon} from "@heroicons/react/24/outline"
 
 export default function DashBoardPage() {
   const [toggleForm, setToggleForm] = useState(false);
@@ -66,7 +69,7 @@ export default function DashBoardPage() {
       <header>
         <span>Dashboard</span>
         {/* <span>logout</span> */}
-        <NavLink to={"/project"}>project</NavLink>
+        {/* <NavLink to={"/project"}>project</NavLink> */}
       </header>
       <main>
         <section>
@@ -79,16 +82,31 @@ export default function DashBoardPage() {
                     <li
                       key={list.UserId}
                       onClick={() => navigateToProject(list.ID)}
+                      style={{display:'flex',gap:8,width:"100%"}}
                     >
+                      <span>
+                      <DocumentTextIcon height={30} width={20}/>
+                      </span>
+                      <span style={{fontWeight:600}}>
                       {list?.projectname}
+                      </span>
+                      <span style={{alignSelf:'end'}}>
+                        <TrashIcon height={25} width={25}/>
+                      </span>
                     </li>
                   </>
                 );
               })}
             </ul>
           </div>
-          <button className="create-project" onClick={() => addProject()}>
+          <button className="create-project" onClick={() => addProject()} 
+          style={{cursor:"pointer",display:'flex',justifyContent:'center',gap:8,alignItems:'center'}}>
+            <span>
             Create a New Project
+            </span>
+            <span>
+             <FolderPlusIcon height={30} width={30} />
+            </span>
           </button>
         </section>
         <section>

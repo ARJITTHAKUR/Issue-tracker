@@ -15,8 +15,8 @@ function Droppable(props: any) {
   });
   const style = {
     color: isOver ? "cornflowerblue" : undefined,
-    "background-color" : isOver ? "rgb(200, 200, 200,0.2)": undefined,
-    height: "100%"
+    "background-color": isOver ? "rgb(200, 200, 200,0.2)" : undefined,
+    height: "100%",
   };
 
   return (
@@ -29,7 +29,7 @@ function Droppable(props: any) {
 function Draggable(props: any) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
-    data : props.data
+    data: props.data,
   });
   const style = transform
     ? {
@@ -53,42 +53,18 @@ interface props {
   tasks: Task[];
 }
 export default function NewDnD({ tasks }: props) {
-  const [isDropped, setIsDropped] = useState({
-    one: false,
-    two: false,
-  });
   const [taskStateList, setTaskStateList] = useState<Task[]>(tasks);
-  const [container, setContainer] = useState({});
-  const containerId = ["planning", "inprogress", "complete"];
   useEffect(() => {
     console.log({ taskStateList });
   }, [taskStateList]);
-  const [loading, setLoading]= useState<boolean>(false)
-  const draggableMarkup = <Draggable id={"one"}>Drag me</Draggable>;
-  const draggableMarkup_two = <Draggable id={"two"}>another drag me</Draggable>;
+  const [loading, setLoading] = useState<boolean>(false);
+
   async function handleDragEnd(event: any) {
-    // if (event.over) {
-    //   console.log({ event });
-    //   switch (event.active.id) {
-    //     case "one":
-    //       setIsDropped((prev: any) => {
-    //         return { ...prev, one: true };
-    //       });
-    //       break;
-    //     case "two":
-    //       setIsDropped((prev) => {
-    //         return { ...prev, two: true };
-    //       });
-    //       break;
-    //     default:
-    //       throw "unknown element";
-    //   }
-    // }
     if (event.over) {
       console.log({ event });
       switch (event.over.id) {
         case "planning":
-          await changeStatus(event.active.data.current , "planning")
+          await changeStatus(event.active.data.current, "planning");
           setTaskStateList((prev) => {
             return prev.map((task) => {
               if (event.active.id === task.ID) {
@@ -100,7 +76,7 @@ export default function NewDnD({ tasks }: props) {
           });
           break;
         case "inprogress":
-          await changeStatus(event.active.data.current , "inprogress")
+          await changeStatus(event.active.data.current, "inprogress");
           setTaskStateList((prev) => {
             return prev.map((task) => {
               if (event.active.id === task.ID) {
@@ -112,7 +88,7 @@ export default function NewDnD({ tasks }: props) {
           });
           break;
         case "completed":
-          await changeStatus(event.active.data.current , "completed")
+          await changeStatus(event.active.data.current, "completed");
           setTaskStateList((prev) => {
             return prev.map((task) => {
               if (event.active.id === task.ID) {
@@ -140,24 +116,25 @@ export default function NewDnD({ tasks }: props) {
     }
   }
 
-  const changeStatus = async (task: Task, type : 'inprogress' | 'completed' | 'planning') : Promise<void> =>{
-    setLoading(true)
+  const changeStatus = async (
+    task: Task,
+    type: "inprogress" | "completed" | "planning"
+  ): Promise<void> => {
+    setLoading(true);
     try {
-      const res = await axios.put(`${apis.SET_TO_INPROGRESS}${type}/${task.ID}`)
-      console.log({res})
-      if(res.statusText === "ok"){
-        console.log({res})
-      }
-      else throw("error occured during the operation")
+      const res = await axios.put(
+        `${apis.SET_TO_INPROGRESS}${type}/${task.ID}`
+      );
+      console.log({ res });
+      if (res.statusText === "ok") {
+        console.log({ res });
+      } else throw "error occured during the operation";
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-    setLoading(false)
-  }
-  const dragMarker = tasks.map((task) => (
-    <Draggable id={task.ID}>{task.description}</Draggable>
-  ));
-  function makeDraggableMarkers() {}
+    setLoading(false);
+  };
+  
   return (
     /**
      * need to have an multi droppables
@@ -165,39 +142,23 @@ export default function NewDnD({ tasks }: props) {
      *
      */
     <>
-    {loading && <div>
-      <h1>Loading</h1>
-    </div>}
-    <div className="dnd-container">
-      <DndContext onDragEnd={handleDragEnd}>
-        {/* {!isDropped.one ? draggableMarkup : null}
+      {loading && (
+        <div className="loading-task">
+          <h1>Loading</h1>
+        </div>
+      )}
+      <div className="dnd-container">
+        <DndContext onDragEnd={handleDragEnd}>
+          {/* {!isDropped.one ? draggableMarkup : null}
       {!isDropped.two ? draggableMarkup_two : null} */}
 
-        <div className="droppable-container">
-          <div className="droppable-elements">
-            <h1>New Tasks</h1>
-            {taskStateList.map((task) => {
-              return (
-                <>
-                  {task.status === "" ? (
-                    <Draggable id={task.ID} data={task}>
-                      <TaskBox task={task} />
-                    </Draggable>
-                  ) : (
-                    ""
-                  )}
-                </>
-              );
-            })}
-          </div>
-          {/* {dragMarker} */}
-          <div className="droppable-elements">
-            <Droppable id={"planning"} key={"planning"}>
-              <h1>Planning</h1>
+          <div className="droppable-container">
+            <div className="droppable-elements">
+              <h1>New Tasks</h1>
               {taskStateList.map((task) => {
                 return (
                   <>
-                    {task.status === "planning" ? (
+                    {task.status === "" ? (
                       <Draggable id={task.ID} data={task}>
                         <TaskBox task={task} />
                       </Draggable>
@@ -207,49 +168,67 @@ export default function NewDnD({ tasks }: props) {
                   </>
                 );
               })}
-            </Droppable>
-          </div>
-          <div className="droppable-elements">
-            <Droppable id={"inprogress"} key={"inprogress"}>
-              <h1>In Progress</h1>
-              {taskStateList.map((task) => {
-                return (
-                  <>
-                    {task.status === "inprogress" ? (
-                      <Draggable id={task.ID} data={task}>
-                        <TaskBox task={task} />
-                      </Draggable>
-                    ) : (
-                      ""
-                    )}
-                  </>
-                );
-              })}
-            </Droppable>
-          </div>
-          <div className="droppable-elements">
-            <Droppable id={"completed"} key={"completed"}>
-              <h1>Completed</h1>
-              {/* {isDropped.one ? draggableMarkup : "drop here"}
+            </div>
+            {/* {dragMarker} */}
+            <div className="droppable-elements">
+              <Droppable id={"planning"} key={"planning"}>
+                <h1>Planning</h1>
+                {taskStateList.map((task) => {
+                  return (
+                    <>
+                      {task.status === "planning" ? (
+                        <Draggable id={task.ID} data={task}>
+                          <TaskBox task={task} />
+                        </Draggable>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  );
+                })}
+              </Droppable>
+            </div>
+            <div className="droppable-elements">
+              <Droppable id={"inprogress"} key={"inprogress"}>
+                <h1>In Progress</h1>
+                {taskStateList.map((task) => {
+                  return (
+                    <>
+                      {task.status === "inprogress" ? (
+                        <Draggable id={task.ID} data={task}>
+                          <TaskBox task={task} />
+                        </Draggable>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  );
+                })}
+              </Droppable>
+            </div>
+            <div className="droppable-elements">
+              <Droppable id={"completed"} key={"completed"}>
+                <h1>Completed</h1>
+                {/* {isDropped.one ? draggableMarkup : "drop here"}
             {isDropped.two ? draggableMarkup_two : "drop here"} */}
-              {taskStateList.map((task) => {
-                return (
-                  <>
-                    {task.status === "completed" ? (
-                      <Draggable id={task.ID} data={task}>
-                        <TaskBox task={task} />
-                      </Draggable>
-                    ) : (
-                      ""
-                    )}
-                  </>
-                );
-              })}
-            </Droppable>
+                {taskStateList.map((task) => {
+                  return (
+                    <>
+                      {task.status === "completed" ? (
+                        <Draggable id={task.ID} data={task}>
+                          <TaskBox task={task} />
+                        </Draggable>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  );
+                })}
+              </Droppable>
+            </div>
           </div>
-        </div>
-      </DndContext>
-    </div>
+        </DndContext>
+      </div>
     </>
   );
 }

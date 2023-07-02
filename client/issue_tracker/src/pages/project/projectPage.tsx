@@ -70,22 +70,15 @@ export default function Project() {
   return (
     <>
     <CustomHeader>
-      Projects current user {userVal.name}
+      {/* Projects current user {userVal.name} */}
       {/* <h1>{user.name}</h1> */}
       {/* <button onClick={() => logUser()}>log user</button> */}
+      Manage All Tasks
     </CustomHeader>
       <div className="project-container">
         <div className="top-panel">
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
         </div>
-        {/* <DragNDropTasks /> */}
-        {/* <ul>
-          {taskList.length && taskList.map((item)=> {
-            return <>
-            <li>{item.description}</li>
-            </>
-          })}
-        </ul> */}
         {/* weird behaviour when removing length property from the list */}
         {taskList.length >0 && <NewDnD tasks={taskList}/>} 
         <DialogForm

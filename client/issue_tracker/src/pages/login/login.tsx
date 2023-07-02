@@ -50,7 +50,15 @@ export default function LoginPage() {
   // },[user])
   return (
     <>
-      <NavLink to={"/dashboard"}>dashboard</NavLink>
+          <div className="login-backdrop">
+            <div className="backdrop-label-container">
+            <h1 className="title">Issue Tracker</h1>
+            {/* <p>
+              Plan | Log | work
+            </p> */}
+            </div>
+          </div>
+      {/* <NavLink to={"/dashboard"}>dashboard</NavLink> */}
       <div className="container">
         <div className="login-container">
           <label htmlFor="user">Enter Username</label>
@@ -58,7 +66,31 @@ export default function LoginPage() {
           {/* <button onClick={()=>navigate('/dashboard')}>Login</button> */}
           <Button text="login" onClick={() => loginFunc()} />
         </div>
+        
       </div>
+      <div className="description-container">
+          <div className="description-box">
+            <h3>Start a project</h3>
+            <p>
+            Start by making a Project,
+            adding details,like timeline and description.
+            </p>
+          </div>
+          <div className="description-box">
+            <h3>Make Tasks</h3>
+            <p>
+            Make tasks for a project that'll help you breakdown a project in 
+            simple easy workalbe pieces and track progess.
+            </p>
+          </div>
+          <div className="description-box">
+            <h3>Get overview of all the projects</h3>
+            <p>
+            Your dashboard will give you the overview of all the tasks at once with data visualization
+            so that you get a bird eye view of what going on with everything.
+            </p>
+          </div>
+        </div>
     </>
   );
 }
