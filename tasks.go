@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -73,5 +74,37 @@ func GetTasks(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
 		"tasks": tasks,
 	})
+
+}
+
+func ChangeStatus(c *fiber.Ctx) error {
+	status := c.Params("status")
+	id := c.Params("id")
+	fmt.Printf("id : %s, status : %s", id, status)
+	idInt, err := strconv.Atoi(id)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+
+	var task Task
+	task.ID = uint(idInt)
+	findErr := DB.First(&task).Error
+
+	if findErr != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(findErr.Error())
+	}
+
+	task.Status = status
+
+	putErr := DB.Save(&task).Error
+
+	if putErr != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(putErr.Error())
+	} else {
+		return c.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"task": task,
+		})
+	}
 
 }

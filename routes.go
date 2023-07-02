@@ -29,4 +29,10 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Put("/deleteProject/:id", DeleteProject)
 
+	api.Put("/changeTaskStatus/:status/:id", ChangeStatus)
+
+	// api.Put("/changeTaskStatus/inprogress/:id", ChangeStatus)
+
+	// api.Put("/changeTaskStatus/completed/:id", ChangeStatus)
+
 }

@@ -74,8 +74,8 @@ export default function Project() {
       {/* <h1>{user.name}</h1> */}
       {/* <button onClick={() => logUser()}>log user</button> */}
     </CustomHeader>
-      <div>
-        <div>
+      <div className="project-container">
+        <div className="top-panel">
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
         </div>
         {/* <DragNDropTasks /> */}

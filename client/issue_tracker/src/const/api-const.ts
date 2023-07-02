@@ -6,4 +6,7 @@ export const apis = {
     CREATE_PROJECT : `${env}/createProject`,
     CREATE_TASK : `${env}/createTask`,
     GET_TASKS : `${env}/getTasks`,
+    SET_TO_PLANNING : `${env}/changeTaskStatus/`,
+    SET_TO_INPROGRESS : `${env}/changeTaskStatus/`,
+    SET_TO_COMPLETE : `${env}/changeTaskStatus/`,
 }

@@ -21,5 +21,61 @@ select {
 .taskBox {
     display:flex;
     flex-direction: column;
-    background-color: lightgoldenrodyellow;
+    background-color: lightgray;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.droppable-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: 80vh;
+
+}
+
+.dnd-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+.droppable-elements{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    /* border : 1px solid lightslategray; */
+    border-radius: 5px;
+    /* width: 100%; */
+    flex-basis: 100%;
+    border-right: 1px solid grey;
+    /* overflow-y: scroll; */
+}
+
+.new-task-container{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border : 1px solid lightslategray;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.project-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+li{
+    list-style: none;
+}
+
+h1 {
+    color: rgb(100, 100, 100);
+    font-weight: 500;
+}
+
+.top-panel{
+    display : flex;
+    margin: 1rem 0.5rem;
 }
