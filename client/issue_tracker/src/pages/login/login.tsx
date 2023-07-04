@@ -73,7 +73,7 @@ export default function LoginPage() {
             <h3>Start a project</h3>
             <p>
             Start by making a Project,
-            adding details,like timeline and description.
+            adding details, like timeline, description and it's priority.
             </p>
           </div>
           <div className="description-box">

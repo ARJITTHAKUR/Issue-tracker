@@ -16,6 +16,9 @@
     background-color: rgba(0, 119, 255, 0.969);
     /* border: 1px solid black; */
 }
+btn-class:focus {
+    background-color: rgba(0, 119, 255, 0.969);
+}
 
 .loading {
     border-radius: 50%;

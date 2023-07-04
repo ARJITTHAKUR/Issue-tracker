@@ -154,7 +154,7 @@ export default function NewDnD({ tasks }: props) {
 
           <div className="droppable-container">
             <div className="droppable-elements">
-              <h1>New Tasks</h1>
+              <h1 >New Tasks</h1>
               {taskStateList.map((task) => {
                 return (
                   <>
@@ -172,7 +172,7 @@ export default function NewDnD({ tasks }: props) {
             {/* {dragMarker} */}
             <div className="droppable-elements">
               <Droppable id={"planning"} key={"planning"}>
-                <h1>Planning</h1>
+                <h1 style={{color:'rgb(  0, 158, 206 )'}}>Planning</h1>
                 {taskStateList.map((task) => {
                   return (
                     <>
@@ -190,7 +190,7 @@ export default function NewDnD({ tasks }: props) {
             </div>
             <div className="droppable-elements">
               <Droppable id={"inprogress"} key={"inprogress"}>
-                <h1>In Progress</h1>
+                <h1 style={{color:'rgb( 247, 215, 8 )'}}>In Progress</h1>
                 {taskStateList.map((task) => {
                   return (
                     <>
@@ -208,7 +208,7 @@ export default function NewDnD({ tasks }: props) {
             </div>
             <div className="droppable-elements">
               <Droppable id={"completed"} key={"completed"}>
-                <h1>Completed</h1>
+                <h1 style={{color:'rgb( 	156, 207, 49  )'}}>Completed</h1>
                 {/* {isDropped.one ? draggableMarkup : "drop here"}
             {isDropped.two ? draggableMarkup_two : "drop here"} */}
                 {taskStateList.map((task) => {

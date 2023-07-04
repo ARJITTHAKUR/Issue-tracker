@@ -80,7 +80,11 @@ export default function Project() {
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
         </div>
         {/* weird behaviour when removing length property from the list */}
-        {taskList.length >0 && <NewDnD tasks={taskList}/>} 
+        {taskList.length >0 ?
+         <NewDnD tasks={taskList}/> :
+          <div className="no-tasks-screen">
+        <h1>No tasks available, Create a new task.</h1>
+        </div>} 
         <DialogForm
           toggle={toggleForm}
           setToggle={setToggleForm}

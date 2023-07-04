@@ -65,7 +65,7 @@ func GetTasks(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	var tasks []Task
-	err := DB.Where("project_Id = ?", id).Find(&tasks).Error
+	err := DB.Where("project_Id = ?", id).Where("deleted_at = ?", nil).Find(&tasks).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
