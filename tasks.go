@@ -25,12 +25,12 @@ func Createtask(c *fiber.Ctx) error {
 		})
 
 	}
-
+	fmt.Printf("temptask => %+v\n", tempTask)
 	tempProject := new(Project)
 	type project struct {
 		ID uint
 	}
-	resError := DB.Where(project{ID: tempTask.ProjectID}).First(tempProject).Error // temp project struct for where query and mutation in complete shape
+	resError := DB.Where("id = ?", tempTask.ProjectID).First(tempProject).Error // temp project struct for where query and mutation in complete shape
 
 	fmt.Printf("queried: %+v\n", tempProject)
 

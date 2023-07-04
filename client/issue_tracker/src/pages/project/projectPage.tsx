@@ -50,7 +50,7 @@ export default function Project() {
 
   const getTasks =async ()=>{
     try {
-      const res = await axios.get(`${apis.GET_TASKS}/${user.id}`)
+      const res = await axios.get(`${apis.GET_TASKS}/${currentSelectedProject.ID}`)
       if(res.status){
         // console.log(res.data.tasks)
         setTaskList(res.data.tasks)
