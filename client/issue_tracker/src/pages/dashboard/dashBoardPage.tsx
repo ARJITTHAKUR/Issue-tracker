@@ -13,6 +13,7 @@ import { currentProject, currentUser } from "../../store/store";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import {TrashIcon} from "@heroicons/react/24/outline"
+import List from "./list";
 
 export default function DashBoardPage() {
   const [toggleForm, setToggleForm] = useState(false);
@@ -75,7 +76,7 @@ export default function DashBoardPage() {
         <section>
           <div className="label">Current Projects</div>
           <div className="listing">
-            <ul>
+            {/* <ul>
               {projectList?.map((list) => {
                 return (
                   <>
@@ -97,7 +98,8 @@ export default function DashBoardPage() {
                   </>
                 );
               })}
-            </ul>
+            </ul> */}
+            <List projectList={projectList} onListItemClick={(id)=>{ navigateToProject(id)}}/>
           </div>
           <button className="create-project" onClick={() => addProject()} 
           style={{cursor:"pointer",display:'flex',justifyContent:'center',gap:8,alignItems:'center'}}>
