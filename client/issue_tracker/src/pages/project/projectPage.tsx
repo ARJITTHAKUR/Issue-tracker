@@ -22,9 +22,9 @@ export default function Project() {
   const logUser = () => {
     console.log({ user });
   };
-  useEffect(() => {
-    console.log(user);
-  }, [user, userVal]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user, userVal]);
 
 
   const createTask = async(data : any)=>{
@@ -38,8 +38,8 @@ export default function Project() {
         let res = await axios.post(apis.CREATE_TASK,payload)
 
         if(res.status){
-            console.log({res})
             setToggleForm(prev=>!prev)
+            await getTasks()
         }
     } catch (error) {
       if(error instanceof AxiosError){
@@ -50,10 +50,10 @@ export default function Project() {
 
   const getTasks =async ()=>{
     try {
-      const res = await axios.get(`${apis.GET_TASKS}/${currentSelectedProject.ID}`)
+      const res = await axios.get<{tasks:Task[]}>(`${apis.GET_TASKS}/${currentSelectedProject.ID}`)
       if(res.status){
-        // console.log(res.data.tasks)
-        setTaskList(res.data.tasks)
+        const newTasks = [...res.data.tasks]
+        setTaskList(newTasks)
       }
     } catch (error) {
       console.error(error)
@@ -63,16 +63,13 @@ export default function Project() {
   useEffect(()=>{
     getTasks()
   },[user.id])
-  useEffect(()=>{
-    console.log({taskList})
-  },[taskList])
+  // useEffect(()=>{
+  //   console.log({taskList})
+  // },[taskList])
   
   return (
     <>
     <CustomHeader>
-      {/* Projects current user {userVal.name} */}
-      {/* <h1>{user.name}</h1> */}
-      {/* <button onClick={() => logUser()}>log user</button> */}
       Manage All Tasks
     </CustomHeader>
       <div className="project-container">
@@ -81,7 +78,7 @@ export default function Project() {
         </div>
         {/* weird behaviour when removing length property from the list */}
         {taskList.length >0 ?
-         <NewDnD tasks={taskList}/> :
+         <NewDnD key={"DND"} tasks={taskList}/> :
           <div className="no-tasks-screen">
         <h1>No tasks available, Create a new task.</h1>
         </div>} 
