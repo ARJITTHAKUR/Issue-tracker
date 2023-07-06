@@ -1,4 +1,4 @@
-import { FormEvent, useReducer, useState } from "react"
+import { FormEvent, useEffect, useReducer, useState } from "react"
 import "./style.css"
 import { formState } from "./interface"
 import {z} from "zod";
@@ -10,7 +10,8 @@ enum ActionTypes {
     changetask,
     changeStatus,
     changePriority,
-    changeDescription
+    changeDescription,
+    resetForm
 }
 const formReducer = (state : formState, action : {type : ActionTypes, payload?: any}) : formState =>{
     switch(action.type){
@@ -18,6 +19,7 @@ const formReducer = (state : formState, action : {type : ActionTypes, payload?: 
         case ActionTypes.changeStatus : return {...state, status : action.payload}
         case ActionTypes.changePriority : return {...state, priority : action.payload}
         case ActionTypes.changeDescription : return {...state, description : action.payload}
+        case ActionTypes.resetForm : return {...state,taskname : '', description : '', priority : '', status : ''}
         default:  throw('Incorrect action') 
     }
 }
@@ -61,13 +63,23 @@ export default function TaskForm({submit} : props){
         formValidation(formState)
         // console.log(e,{formState})
         submit(formState)
+        formDispatch({type: ActionTypes.resetForm})
     }
+
+    useEffect(()=>{
+        console.log("running useEffect")
+
+        return ()=>{
+            formDispatch({type:ActionTypes.resetForm})
+            console.log("cleaning")
+        }
+    },[])
     return <>
     
     <div>
     <form onSubmit={handleSubmit} className="form-container">
         <label htmlFor="projectname" data-tooltip="Enter Project Name in the below field" className="project-name">Task Name</label>
-        <input type="text" name="projectname" id="" onChange={(e)=>formDispatch({type: ActionTypes.changetask, payload: e.target.value})}/>
+        <input type="text" name="projectname" id="" value={formState.taskname} onChange={(e)=>formDispatch({type: ActionTypes.changetask, payload: e.target.value})}/>
         {
             errors && errors?.taskname.length > 0 && errors.taskname.map(errors=><span style={{color:'red'}}>{errors}</span>)
         }
@@ -82,7 +94,7 @@ export default function TaskForm({submit} : props){
         <input type="date" name="endDate" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeEndDate, payload: e.target.value})}/>
         </label> */}
         <label htmlFor="">Status</label>
-        <select name="" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}>
+        <select name="" id="" value={formState.status} onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}>
             <option value="planning">Planning</option>
             <option value="inprogress">In progress</option>
             <option value="completed">Completed</option>
@@ -90,14 +102,14 @@ export default function TaskForm({submit} : props){
         </select>
 
         <label htmlFor="">Priority</label>
-        <select name="" id="" onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}>
+        <select name="" id="" value={formState.priority} onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}>
             <option value="highest">Highest</option>
             <option value="high">High</option>
             <option value="low">Low</option>
         </select>
 
         <label htmlFor="description">Enter Task Description</label>
-        <textarea name="description" id="" cols={30} rows={10} onChange={(e)=>formDispatch({type: ActionTypes.changeDescription, payload: e.target.value})}></textarea>
+        <textarea name="description" id="" cols={30} rows={10} value={formState.description} onChange={(e)=>formDispatch({type: ActionTypes.changeDescription, payload: e.target.value})}></textarea>
         {
             errors && errors?.description.length > 0 && errors.description.map(errors=><span style={{color:'red'}}>{errors}</span>)
         }
