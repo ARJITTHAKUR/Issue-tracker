@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
@@ -38,22 +39,48 @@ func DbConnectNew() {
 	user := os.Getenv("USER")
 	password := os.Getenv("PASSWORD")
 	dbname := os.Getenv("DBNAME")
+
 	// fmt.Println(host, port, user, password, dbname)
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	// dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
+
+	db, err := gorm.Open(postgres.Open("host=localhost user=postgres password=password port=5432 sslmode=disable"), &gorm.Config{})
+	if err != nil {
+		fmt.Print(err.Error())
+		panic("failed to connect with postgres and create table")
+	}
+	err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
+
+	if err != nil {
+		panic("failed to create database!")
+	}
+
+	connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	dsn := connStr
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger:         newLogger,
 		TranslateError: true,
 	})
 
 	if err != nil {
-		panic("failed to connect with ")
+		fmt.Print(err.Error())
+		panic("failed to connect with with database name")
 	}
+
+	fmt.Println("Database exists and connected")
 
 	DB = db
 
 	fmt.Println("connected to DB")
 
 	RunAllMigrations()
+}
+
+func databaseExists(db *sql.DB, name string) (bool, error) {
+	var exists bool
+	err := db.QueryRow("SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = $1)", name).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
