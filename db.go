@@ -44,15 +44,21 @@ func DbConnectNew() {
 	// dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
-	db, err := gorm.Open(postgres.Open("host=localhost user=postgres password=password port=5432 sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open("host=host.docker.internal user=postgres password=password port=5432 sslmode=disable"), &gorm.Config{})
 	if err != nil {
 		fmt.Print(err.Error())
 		panic("failed to connect with postgres and create table")
 	}
-	err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
 
-	if err != nil {
-		panic("failed to create database!")
+	// bol, err := databaseExists(db.DB(),"ISSUE_TRACKER")
+	var count int64
+	db.Raw("SELECT COUNT(*) FROM pg_database WHERE datname = ?", "ISSUE_TRACKER").Scan(&count)
+	if count == 0 {
+		err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
+
+		if err != nil {
+			panic("failed to create database!")
+		}
 	}
 
 	connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
