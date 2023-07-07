@@ -16,5 +16,5 @@ func main() {
 	// DB.Migrator().DropTable(&User{}, &Project{}, &Task{})
 	RoutesSetup(app) // all user routes setups
 
-	app.Listen(":3000")
+	app.Listen(":8080")
 }
