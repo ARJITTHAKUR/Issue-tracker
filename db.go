@@ -41,10 +41,10 @@ func DbConnectNew() {
 	dbname := os.Getenv("DBNAME")
 
 	// fmt.Println(host, port, user, password, dbname)
-	// dsn := "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
+	dsn := "postgres://postgres:password@localhost:5432?sslmode=disable"
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
-	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Print(err.Error())
 		panic("failed to connect with postgres and create table")
