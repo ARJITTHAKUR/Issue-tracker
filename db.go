@@ -34,15 +34,15 @@ func DbConnectNew() {
 		log.Fatal("Error loading .env file")
 	}
 
-	host := os.Getenv("HOST")
-	port := os.Getenv("PORT")
-	user := os.Getenv("USER")
-	password := os.Getenv("PASSWORD")
-	dbname := os.Getenv("DBNAME")
+	// host := os.Getenv("HOST")
+	// port := os.Getenv("PORT")
+	// user := os.Getenv("USER")
+	// password := os.Getenv("PASSWORD")
+	// dbname := os.Getenv("DBNAME")
 
 	// fmt.Println(host, port, user, password, dbname)
 	dsn := "postgres://postgres:password@localhost:5432?sslmode=disable"
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
+	// connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -61,8 +61,9 @@ func DbConnectNew() {
 		}
 	}
 
-	connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	dsn = connStr
+	// connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	// dsn = connStr
+	dsn = "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger:         newLogger,
 		TranslateError: true,
