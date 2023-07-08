@@ -53,6 +53,7 @@ func DbConnectNew() {
 	// bol, err := databaseExists(db.DB(),"ISSUE_TRACKER")
 	var count int64
 	db.Raw("SELECT COUNT(*) FROM pg_database WHERE datname = ?", "ISSUE_TRACKER").Scan(&count)
+	fmt.Println(count)
 	if count == 0 {
 		err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
 
