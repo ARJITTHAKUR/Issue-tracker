@@ -12,6 +12,8 @@ func LogData() {
 
 func RoutesSetup(app *fiber.App) {
 
+	app.Static("/", "./client/issue_tracker/dist")
+
 	api := app.Group("/api/user")
 
 	api.Post("/createUser", CreateUser)
