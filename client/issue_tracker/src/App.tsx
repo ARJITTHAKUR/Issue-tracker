@@ -1,7 +1,4 @@
 import {
-  Route,
-  Routes,
-  NavLink,
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
@@ -13,7 +10,7 @@ import Toast from "./components/UI/toast/toast";
 import { ToastContext } from "./context/toastContext";
 import { useEffect, useState } from "react";
 import Project from "./pages/project/projectPage";
-import { RecoilRoot, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { currentUser } from "./store/store";
 const router = createBrowserRouter([
   {

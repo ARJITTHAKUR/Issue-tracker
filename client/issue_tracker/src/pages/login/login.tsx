@@ -7,6 +7,7 @@ import { useRecoilState,useSetRecoilState } from "recoil";
 
 import { ToastContext } from "../../context/toastContext";
 import { currentUser } from "../../store/store";
+import { apis } from "../../const/api-const";
 
 interface LoginResponse {
   login: boolean;
@@ -27,7 +28,7 @@ export default function LoginPage() {
     body.name = inputRef?.current?.value as string;
     try {
       const res = await axios.post<LoginResponse>(
-        "http://127.0.0.1:3000/api/user/login",
+        apis.lOGIN,
         body
       );
       if (res.status !== 200) {

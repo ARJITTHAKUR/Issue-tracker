@@ -1,7 +1,8 @@
 
-export const env = `http://127.0.0.1:3000/api/user`
+export const env = `http://127.0.0.1:8080/api/user`
 
 export const apis = {
+    lOGIN : `${env}/login`,
     GET_PROJECTS : `${env}/getProjects`,
     CREATE_PROJECT : `${env}/createProject`,
     CREATE_TASK : `${env}/createTask`,
