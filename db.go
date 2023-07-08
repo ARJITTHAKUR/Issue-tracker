@@ -54,7 +54,7 @@ func DbConnectNew() {
 	var count int64
 	db.Raw("SELECT COUNT(*) FROM pg_database WHERE datname = ?", "ISSUE_TRACKER").Scan(&count)
 	fmt.Println(count)
-	if count == 0 {
+	if count != 0 {
 		err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
 
 		if err != nil {
@@ -64,7 +64,7 @@ func DbConnectNew() {
 
 	// connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	// dsn = connStr
-	dsn = "postgres://postgres:password@localhost:5432/ISSUE_TRACKER?sslmode=disable"
+	dsn = "postgres://postgres:password@localhost:5432/issue_tracker?sslmode=disable"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger:         newLogger,
 		TranslateError: true,
