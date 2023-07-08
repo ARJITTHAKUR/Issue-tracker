@@ -62,7 +62,7 @@ func DbConnectNew() {
 	}
 
 	connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	dsn := connStr
+	dsn = connStr
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger:         newLogger,
 		TranslateError: true,
