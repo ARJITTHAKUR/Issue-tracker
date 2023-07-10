@@ -10,7 +10,7 @@ export default function List({ projectList, onListItemClick }: props) {
   return (
     <>
       <ul>
-        {projectList.length === 0 ? (
+        {!projectList ? (
           <h1>Loading...</h1>
         ) : (
           projectList?.map((list) => {

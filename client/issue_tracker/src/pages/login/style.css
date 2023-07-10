@@ -43,6 +43,7 @@ label {
     position: relative;
     top: -20rem;
     justify-content: center;
+    align-items: stretch;
 }
 
 .description-box{
@@ -54,11 +55,19 @@ label {
     border: 1px solid gray;
     border-radius: 5px;
     padding: 0.2rem 1rem;
-    height: max-content;
+    justify-content: space-between;
 }
 .title {
     font-size: 4rem;
     font-weight: 500;
     color: white;
     font-family: monospace;
+}
+
+.description-title{
+    flex : 0 1 1rem;
+}
+
+.description-content {
+    flex :1;
 }

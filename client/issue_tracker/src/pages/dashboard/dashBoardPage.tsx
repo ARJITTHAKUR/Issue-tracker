@@ -26,12 +26,17 @@ export default function DashBoardPage() {
     setToggleForm((prev) => !prev);
   };
   const getProjects = async () => {
-    const res = await axios.get<ProjectListInterface>(
+    try {const res = await axios.get<ProjectListInterface>(
       `${apis.GET_PROJECTS}/${user.id}`
     );
     console.log({ res });
     const listData = res.data.projects;
     setProjectList((prev) => listData);
+      
+    } catch (error) {
+      console.error(error)
+    }
+    
   };
 
   async function createProject(data: formState) {

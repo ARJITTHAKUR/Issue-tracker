@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,7 +14,13 @@ func LogData() {
 func RoutesSetup(app *fiber.App) {
 
 	app.Static("/", "./client/issue_tracker/dist")
-
+	app.Use(func(c *fiber.Ctx) error {
+		if c.Path() == "/api" || strings.HasPrefix(c.Path(), "/api/") {
+			// Pass the request to the API endpoints
+			return c.Next()
+		}
+		return c.SendFile("./client/issue_tracker/dist/index.html")
+	})
 	api := app.Group("/api/user")
 
 	api.Post("/createUser", CreateUser)
@@ -36,5 +43,9 @@ func RoutesSetup(app *fiber.App) {
 	// api.Put("/changeTaskStatus/inprogress/:id", ChangeStatus)
 
 	// api.Put("/changeTaskStatus/completed/:id", ChangeStatus)
+
+}
+
+func frontendHandler() {
 
 }

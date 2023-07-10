@@ -34,17 +34,17 @@ func DbConnectNew() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// host := os.Getenv("HOST")
-	// port := os.Getenv("PORT")
-	// user := os.Getenv("USER")
-	// password := os.Getenv("PASSWORD")
-	// dbname := os.Getenv("DBNAME")
+	host := os.Getenv("MY_HOST")
+	port := os.Getenv("MY_PORT")
+	user := os.Getenv("MY_USER")
+	password := os.Getenv("MY_PASSWORD")
+	dbname := os.Getenv("MY_DBNAME")
 
 	// fmt.Println(host, port, user, password, dbname)
-	dsn := "postgres://postgres:password@localhost:5432?sslmode=disable"
-	// connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
+	// dsn := "postgres://postgres:password@localhost:5432?sslmode=disable"
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{})
 	if err != nil {
 		fmt.Print(err.Error())
 		panic("failed to connect with postgres and create table")
@@ -54,7 +54,7 @@ func DbConnectNew() {
 	var count int64
 	db.Raw("SELECT COUNT(*) FROM pg_database WHERE datname = ?", "ISSUE_TRACKER").Scan(&count)
 	fmt.Println(count)
-	if count != 0 {
+	if count == 0 {
 		err = db.Exec("CREATE DATABASE ISSUE_TRACKER").Error
 
 		if err != nil {
@@ -62,10 +62,10 @@ func DbConnectNew() {
 		}
 	}
 
-	// connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	// dsn = connStr
-	dsn = "postgres://postgres:password@localhost:5432/issue_tracker?sslmode=disable"
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+	// dsn = "postgres://postgres:password@localhost:5432/issue_tracker?sslmode=disable"
+	db, err = gorm.Open(postgres.Open(connStr), &gorm.Config{
 		Logger:         newLogger,
 		TranslateError: true,
 	})

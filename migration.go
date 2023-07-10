@@ -1,18 +1,29 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
+
+	"gorm.io/gorm"
 )
 
-func UserMigrations() error {
-	if res := DB.Migrator().HasTable(&User{}); !res {
-		if err := DB.AutoMigrate(&User{}); err != nil {
-			log.Fatal(err)
-			return err
+func UserMigrations() {
+	// if res := DB.Migrator().HasTable(&User{}); !res {
+	// 	if err := DB.AutoMigrate(&User{}); err != nil {
+	// 		log.Fatal(err)
+	// 		return err
+	// 	}
+	// }
+	// return nil
+	if err := DB.AutoMigrate(&User{}); err == nil && DB.Migrator().HasTable(&User{}) {
+		if err := DB.First(&User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			err := DB.Save(&User{Name: "user1"}).Error
+			if err != nil {
+				panic(err.Error())
+			}
 		}
 	}
-	return nil
 }
 
 func ProjectMigrations() error {
