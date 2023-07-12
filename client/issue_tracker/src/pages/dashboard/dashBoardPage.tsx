@@ -14,6 +14,7 @@ import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import {TrashIcon} from "@heroicons/react/24/outline"
 import List from "./list";
+import { Pie, PieChart } from "recharts";
 
 export default function DashBoardPage() {
   const [toggleForm, setToggleForm] = useState(false);
@@ -74,50 +75,52 @@ export default function DashBoardPage() {
     <>
       <header>
         <span>Dashboard</span>
-        {/* <span>logout</span> */}
-        {/* <NavLink to={"/project"}>project</NavLink> */}
       </header>
       <main>
         <section>
           <div className="label">Current Projects</div>
           <div className="listing">
-            {/* <ul>
-              {projectList?.map((list) => {
-                return (
-                  <>
-                    <li
-                      key={list.UserId}
-                      onClick={() => navigateToProject(list.ID)}
-                      style={{display:'flex',gap:8,width:"100%"}}
-                    >
-                      <span>
-                      <DocumentTextIcon height={30} width={20}/>
-                      </span>
-                      <span style={{fontWeight:600}}>
-                      {list?.projectname}
-                      </span>
-                      <span style={{alignSelf:'end'}}>
-                        <TrashIcon height={25} width={25}/>
-                      </span>
-                    </li>
-                  </>
-                );
-              })}
-            </ul> */}
-            <List projectList={projectList} onListItemClick={(id)=>{ navigateToProject(id)}}/>
+            
+            <List
+              projectList={projectList}
+              onListItemClick={(id) => {
+                navigateToProject(id);
+              }}
+            />
           </div>
-          <button className="create-project" onClick={() => addProject()} 
-          style={{cursor:"pointer",display:'flex',justifyContent:'center',gap:8,alignItems:'center'}}>
+          <button
+            className="create-project"
+            onClick={() => addProject()}
+            style={{
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              gap: 8,
+              alignItems: "center",
+            }}
+          >
+            <span>Create a New Project</span>
             <span>
-            Create a New Project
-            </span>
-            <span>
-             <FolderPlusIcon height={30} width={30} />
+              <FolderPlusIcon height={30} width={30} />
             </span>
           </button>
         </section>
         <section>
           <div className="label">Project Data</div>
+          <div style={{display:"flex", justifyContent:'center'}}>
+            <PieChart width={500} height={500}>
+              <Pie
+                data={projectList}
+                dataKey="userId"
+                nameKey="projectname"
+                cx="50%"
+                cy="50%"
+                outerRadius={200}
+                fill="#8884d8"
+                label 
+              />
+            </PieChart>
+          </div>
         </section>
       </main>
       <DashBoardDialog
