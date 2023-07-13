@@ -114,3 +114,14 @@ func DeleteProject(c *fiber.Ctx) error {
 	})
 	// return c.Status(fiber.StatusOK).SendString("project deleted")
 }
+
+// func GetUsersProjectData(c *fiber.Ctx) error {
+// 	userId, err := strconv.Atoi(c.Params("userId"))
+
+// 	if err != nil {
+// 		return c.Status(fiber.StatusInternalServerError).SendString("error occured")
+// 	}
+
+// 	user := User{ID: uint(userId)}
+
+// }
