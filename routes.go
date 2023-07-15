@@ -14,14 +14,15 @@ func LogData() {
 func RoutesSetup(app *fiber.App) {
 
 	app.Static("/", "./client/issue_tracker/dist")
-	app.Use(func(c *fiber.Ctx) error {
-		if c.Path() == "/api" || strings.HasPrefix(c.Path(), "/api/") {
+	task_tracker := app.Group("/tasktracker")
+	task_tracker.Use(func(c *fiber.Ctx) error {
+		if c.Path() == "/tasktracker/api" || strings.HasPrefix(c.Path(), "/tasktracker/api/") {
 			// Pass the request to the API endpoints
 			return c.Next()
 		}
 		return c.SendFile("./client/issue_tracker/dist/index.html")
 	})
-	api := app.Group("/api/user")
+	api := task_tracker.Group("/api/user")
 
 	api.Post("/createUser", CreateUser)
 	api.Get("/getUser/:id", GetUser)

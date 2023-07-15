@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { currentUser } from "./store/store";
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/tasktracker",
     Component: LoginPage,
   },
   {
