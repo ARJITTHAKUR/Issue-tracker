@@ -16,15 +16,16 @@ type User struct {
 
 type Project struct {
 	gorm.Model
-	ID        uint   `gorm:"primaryKey"`
-	Name      string `json:"projectname" validate:"required" gorm:"unique:compositeindex;type:text;not null"`
-	UserId    uint   `json:"userId"`
-	User      User
-	Tasks     []Task    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"tasks"`
-	StartDate time.Time `json:"startDate"`
-	EndDate   time.Time `json:"endDate"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID          uint   `gorm:"primaryKey"`
+	Name        string `json:"projectname" validate:"required" gorm:"unique:compositeindex;type:text;not null"`
+	UserId      uint   `json:"userId"`
+	User        User
+	Description string    `json:"description"`
+	Tasks       []Task    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"tasks"`
+	StartDate   time.Time `json:"startDate"`
+	EndDate     time.Time `json:"endDate"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
 type Task struct {

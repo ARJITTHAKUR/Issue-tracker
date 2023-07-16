@@ -30,7 +30,8 @@ select {
 }
 .item-name {
     flex-basis: 30%;
-    color: rgb(29, 67, 129);
+    color: var(--color-primary);
+    padding: 0rem 0.2rem;
 }
 .droppable-container{
     display: flex;

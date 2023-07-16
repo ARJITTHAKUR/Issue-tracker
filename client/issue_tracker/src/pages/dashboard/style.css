@@ -216,3 +216,14 @@ input {
 .projectInput {
     padding: 0.5rem;
 }
+.chart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.pieChart{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -21,6 +21,7 @@ export default function DashBoardPage() {
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [user, setUser] = useRecoilState(currentUser);
   const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
+  const [visualData, setVisualData] = useState([])
   const navigate = useNavigate();
 
   const addProject = () => {
@@ -67,9 +68,28 @@ export default function DashBoardPage() {
     setCurrentSelectedProject(prev => selectedProject as any)
     navigate(`/project/${id}`);
   };
+  const getVisualProjectData = async()=>{
+    try {
+      const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`)
+      const data = res.data
+      let modified = []
+      // console.log({data})
+      
+      if(data.tasks && Object.entries(data.tasks).length > 0){
+        for(let [key,value] of Object.entries(data.tasks)){
+          modified.push({value,length:value.length})
+        }
+        console.log(modified)
+        setVisualData(modified)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   // init
   useEffect(() => {
     getProjects();
+    getVisualProjectData()
   }, [user]);
   return (
     <>
@@ -105,21 +125,22 @@ export default function DashBoardPage() {
             </span>
           </button>
         </section>
-        <section>
+        <section className="chart-container">
           <div className="label">Project Data</div>
-          <div style={{display:"flex", justifyContent:'center'}}>
+          <div className="pieChart">
             <PieChart width={500} height={500}>
               <Pie
-                data={projectList}
-                dataKey="userId"
-                nameKey="projectname"
+                data={visualData}
+                dataKey="length"
+                nameKey="value"
                 cx="50%"
                 cy="50%"
                 outerRadius={200}
                 fill="#8884d8"
-                label 
+                label
               />
             </PieChart>
+            <div className="chart-label">Number of tasks per project</div>
           </div>
         </section>
       </main>

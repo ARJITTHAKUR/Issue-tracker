@@ -41,7 +41,7 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Put("/changeTaskStatus/:status/:id", ChangeStatus)
 
-	// api.Get("/getUserProjectData/:id",)
+	api.Get("/getUserProjectData/:id", GetUsersProjectData)
 
 }
 

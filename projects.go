@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/go-playground/validator"
@@ -115,13 +116,56 @@ func DeleteProject(c *fiber.Ctx) error {
 	// return c.Status(fiber.StatusOK).SendString("project deleted")
 }
 
-// func GetUsersProjectData(c *fiber.Ctx) error {
-// 	userId, err := strconv.Atoi(c.Params("userId"))
+func GetUsersProjectData(c *fiber.Ctx) error {
+	userId, err := strconv.Atoi(c.Params("id"))
+	fmt.Println("api hit")
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
 
-// 	if err != nil {
-// 		return c.Status(fiber.StatusInternalServerError).SendString("error occured")
-// 	}
+	// user := User{ID: uint(userId)}
+	// var data []struct {
+	// 	name  string
+	// 	tasks []Task
+	// }
+	rows, err := DB.Debug().Raw("SELECT projects.name, tasks.description FROM users JOIN projects ON users.id = projects.user_id JOIN tasks ON projects.id = tasks.project_id WHERE users.id = ?", uint(userId)).Rows()
 
-// 	user := User{ID: uint(userId)}
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+	// type resData struct {
+	// 	Name        string `json:"project"`
+	// 	Description string `json:"taskDescription"`
+	// }
+	// var tasks []resData
 
-// }
+	var projectWiseTasks = make(map[string][]string)
+
+	for rows.Next() {
+		// var data resData
+		// err = rows.Scan(&data.Name, &data.Description)
+		var projectName, taskName string
+		err = rows.Scan(&projectName, &taskName)
+
+		if err != nil {
+			log.Fatal(err.Error())
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		}
+		// tasks = append(tasks, data)
+
+		projectWiseTasks[projectName] = append(projectWiseTasks[projectName], taskName)
+	}
+
+	fmt.Printf("%+v\n", projectWiseTasks)
+	// for _, data := range tasks {
+	// 	fmt.Printf("%+v\n", data)
+	// }
+	// jsonRes, err := json.Marshal(tasks)
+	// if err != nil {
+	// 	return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	// }
+	return c.JSON(&fiber.Map{
+		"tasks": projectWiseTasks,
+	})
+
+}

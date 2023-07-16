@@ -12,4 +12,5 @@ export const apis = {
     SET_TO_PLANNING : `${env}/changeTaskStatus/`,
     SET_TO_INPROGRESS : `${env}/changeTaskStatus/`,
     SET_TO_COMPLETE : `${env}/changeTaskStatus/`,
+    GET_ALL_PROJECT_DATA : `${env}/getUserProjectData`
 }
