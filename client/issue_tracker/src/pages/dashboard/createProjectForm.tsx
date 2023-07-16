@@ -38,7 +38,7 @@ export default function CreateProjectForm({submit}:props){
 
     <form onSubmit={handleSubmit} className="form-container">
         <label htmlFor="projectname" data-tooltip="Enter Project Name in the below field" className="project-name">Project Name</label>
-        <input type="text" name="projectname" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeLabel, payload: e.target.value})}/>
+        <input className="projectInput" type="text" name="projectname" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeLabel, payload: e.target.value})}/>
         {/* <br /> */}
         <label htmlFor="startdate">Start Date
         <input type="date" name="startDate" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeStartDate, payload: e.target.value})}/>

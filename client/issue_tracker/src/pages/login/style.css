@@ -8,15 +8,22 @@
 .login-container{
     display: flex;
     justify-content: center;
+    align-items: stretch;
     flex-direction: column;
     padding: 2em;
-    border: 1px solid black;
+    border: 1px solid var(--text-black);
     border-radius: 5px;
     gap: 10px;
-    background-color: white;
+    background-color: var(--text-light);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
 }
-
+.login-input{
+    width: auto;
+    line-height: 2rem;
+    padding: 0.2rem 0.5rem;
+    font-size: medium;
+    font-weight: 400;
+}
 label {
     font-size: large;
 }
@@ -24,10 +31,10 @@ label {
 .login-backdrop{
     height: 50vh;
     width: 100%;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     position: absolute;
     z-index: -1;
-    color: white;
+    color: var(--text-light);
 }
 
 .backdrop-label-container {
@@ -60,7 +67,7 @@ label {
 .title {
     font-size: 4rem;
     font-weight: 500;
-    color: white;
+    color: var(--text-light);
     font-family: monospace;
 }
 

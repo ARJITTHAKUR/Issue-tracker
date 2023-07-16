@@ -1,7 +1,7 @@
 .btn-class{
     all:unset;
     padding: 8px 5px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     border-radius: 5px;
     color: white;
     font-size: medium;
@@ -13,11 +13,11 @@
 }
 
 .btn-class:hover {
-    background-color: rgba(0, 119, 255, 0.969);
+    background-color: var(--color-secondary);
     /* border: 1px solid black; */
 }
 btn-class:focus {
-    background-color: rgba(0, 119, 255, 0.969);
+    background-color: var(--color-secondary);
 }
 
 .loading {

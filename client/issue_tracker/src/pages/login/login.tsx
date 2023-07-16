@@ -50,7 +50,7 @@ export default function LoginPage() {
     <>
       <div className="login-backdrop">
         <div className="backdrop-label-container">
-          <h1 className="title">Issue Tracker</h1>
+          <h1 className="title">Task Tracker</h1>
           {/* <p>
               Plan | Log | work
             </p> */}
@@ -60,7 +60,7 @@ export default function LoginPage() {
       <div className="container">
         <div className="login-container">
           <label htmlFor="user">Enter Username</label>
-          <input type="text" name="user" ref={inputRef} />
+          <input type="text" name="user" ref={inputRef} value={"user1"} className="login-input"/>
           {/* <button onClick={()=>navigate('/dashboard')}>Login</button> */}
           <Button text="login" onClick={() => loginFunc()} />
         </div>

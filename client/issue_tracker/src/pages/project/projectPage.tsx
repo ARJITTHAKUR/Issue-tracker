@@ -10,6 +10,7 @@ import { apis } from "../../const/api-const";
 import { Task } from "./interface";
 import CustomHeader from "../../components/UI/header/header";
 import NewDnD from "./newDnDtasks";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Project() {
   const [user, setUser] = useRecoilState(currentUser);
@@ -75,6 +76,9 @@ export default function Project() {
       <div className="project-container">
         <div className="top-panel">
           <Button text="Create Task" onClick={() => setToggleForm(true)} />
+         {taskList.length >0 ? <span className="info-label">
+            <InformationCircleIcon width={20} height={20}/>
+            Drag tasks to switch status</span> : null}
         </div>
         {/* weird behaviour when removing length property from the list */}
         {taskList.length >0 ?

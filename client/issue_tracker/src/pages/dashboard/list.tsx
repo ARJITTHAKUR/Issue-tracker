@@ -19,13 +19,14 @@ export default function List({ projectList, onListItemClick }: props) {
                 <li
                   key={list.UserId}
                   onClick={() => onListItemClick(list.ID)}
-                  style={{ display: "flex", gap: 8, width: "100%" }}
+                  className="list-item"
                 >
                   <span>
-                    <DocumentTextIcon height={30} width={20} />
+                    <DocumentTextIcon height={30} width={20}/>
+                  
+                  <span>{list?.projectname}</span>
                   </span>
-                  <span style={{ fontWeight: 600 }}>{list?.projectname}</span>
-                  <span style={{ alignSelf: "end" }}>
+                  <span>
                     <TrashIcon height={25} width={25} />
                   </span>
                 </li>

@@ -1,6 +1,6 @@
 header{
     padding :10px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     color: white;
     /* font-weight: 400; */
     font-size: larger;
@@ -28,7 +28,7 @@ section {
     display: flex;
     justify-content: center;
     padding: 8px 0px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     color: whitesmoke;
 }
 
@@ -36,7 +36,7 @@ section {
     width: 100%;
     all:unset;
     padding: 10px 5px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     /* border-radius: 5px; */
     color: white;
     font-size: medium;
@@ -44,7 +44,7 @@ section {
     /* border: 1.5px solid black; */
 }
 .create-project:hover{
-    background-color: dodgerblue;
+    background-color: var(--color-secondary);
 }
 .button-full{
     width: 100%;
@@ -81,7 +81,7 @@ dialog::backdrop{
 .modal-cancel {
     all:unset;
     padding: 10px 10px;
-    /* background-color: cornflowerblue; */
+    /* background-color: var(--color-primary); */
     border-radius: 3px;
     color: rgb(70, 70, 70);;
     font-size: large;
@@ -96,7 +96,7 @@ dialog::backdrop{
 .modal-create{
     all:unset;
     padding: 10px 5px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     border-radius: 3px;
     color: white;
     font-size: medium;
@@ -118,10 +118,10 @@ textarea {
     resize: none;
 }
 
-input[type="text"]{
+/* input[type="text"]{
     width: 100%;
     line-height: 2rem;
-}
+} */
 input[type="date"]{
     /* width:100%; */
     margin-left: 1rem;
@@ -145,7 +145,7 @@ label {
     float: right;
     padding : 0.6rem 1rem;
     margin : 5px 0px;
-    background-color: cornflowerblue;
+    background-color: var(--color-primary);
     color :whitesmoke;
     border-radius: 5px;
     border : none;
@@ -175,6 +175,9 @@ input {
 
 .form-container{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .modal-header {
@@ -189,4 +192,27 @@ input {
 .label {
     font-size: large;
     font-weight: 600;
+}
+
+.list-item {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+.list-item > span {
+    font-weight: 600;
+}
+.list-item:hover {
+    background-color: var(--color-neutral);
+}
+.list-item > span:first-child {
+    display: flex;
+    align-items: start;
+    gap:2rem;
+    overflow-y: hidden;
+    /* border: 2px solid orange; */
+}
+
+.projectInput {
+    padding: 0.5rem;
 }
