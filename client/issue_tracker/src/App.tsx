@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { currentUser } from "./store/store";
 const router = createBrowserRouter([
   {
-    path: "/tasktracker",
+    path: "/",
     Component: LoginPage,
   },
   {
@@ -29,7 +29,9 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
-]);
+],{
+  basename : '/tasktracker/'
+});
 
 function App() {
   const [toggleToast, setToggleToast] = useState(false);
@@ -52,21 +54,6 @@ function App() {
   }, []);
   return (
     <>
-      {/* <nav>
-      <ul>
-        <li><NavLink to={'/'}>login </NavLink></li>
-        <li><NavLink to={'/dashboard'}>dashboard</NavLink></li>
-
-      </ul>
-    </nav>
-    <Routes>
-      <Route path="/" element={<LoginPage/>}/>
-        
-      <Route path="/dashboard" element={<DashBoardPage/>}/>
-      <Route path="*" element={<NotFound/>}/>
-
-    </Routes> */}
-
       <ToastContext.Provider value={{ showToast }}>
         <RouterProvider router={router} />
         {toggleToast && <Toast />}

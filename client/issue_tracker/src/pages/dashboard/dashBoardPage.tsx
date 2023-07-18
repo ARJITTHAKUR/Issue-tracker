@@ -70,8 +70,13 @@ export default function DashBoardPage() {
   };
   const getVisualProjectData = async()=>{
     try {
+      type taskData = {
+        tasks : {
+          [key : string] : string[]
+        }
+      }
       const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`)
-      const data = res.data
+      const data : taskData = res.data
       let modified = []
       // console.log({data})
       

@@ -156,7 +156,7 @@ func GetUsersProjectData(c *fiber.Ctx) error {
 		projectWiseTasks[projectName] = append(projectWiseTasks[projectName], taskName)
 	}
 
-	fmt.Printf("%+v\n", projectWiseTasks)
+	// fmt.Printf("%+v\n", projectWiseTasks)
 	// for _, data := range tasks {
 	// 	fmt.Printf("%+v\n", data)
 	// }

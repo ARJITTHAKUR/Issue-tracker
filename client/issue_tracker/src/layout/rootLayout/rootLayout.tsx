@@ -15,10 +15,6 @@ export default function RootLayout() {
           </li>
         </ul>
       </nav>
-      {/* <Route>
-      <Route path="/dashboard" element={<DashBoardPage/>}/>
-      <Route path="*" element={<NotFound/>}/>
-      </Route> */}
       <Outlet />
       rootLayout
     </>
