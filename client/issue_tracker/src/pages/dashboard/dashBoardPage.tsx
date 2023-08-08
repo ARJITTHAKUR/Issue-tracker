@@ -50,10 +50,8 @@ export default function DashBoardPage() {
         endDate: new Date(data.endDate).toISOString(),
         userId: Number(user.id),
       };
-      // console.log({ payload });
       try {
         let res = await axios.post(apis.CREATE_PROJECT, payload);
-        console.log({ res });
         if (res.status) {
           console.log(res);
           await getProjects();
