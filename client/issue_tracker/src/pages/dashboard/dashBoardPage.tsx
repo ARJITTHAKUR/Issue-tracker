@@ -33,7 +33,6 @@ export default function DashBoardPage() {
       const res = await axios.get<ProjectListInterface>(
         `${apis.GET_PROJECTS}/${user.id}`
       );
-      console.log({ res });
       const listData = res.data.projects;
       setProjectList((prev) => listData);
     } catch (error) {
@@ -43,7 +42,6 @@ export default function DashBoardPage() {
 
   const createProject = useCallback(
     async (data: formState) => {
-      console.log({ data });
       let payload = {
         ...data,
         startDate: new Date(data.startDate).toISOString(),
@@ -53,7 +51,6 @@ export default function DashBoardPage() {
       try {
         let res = await axios.post(apis.CREATE_PROJECT, payload);
         if (res.status) {
-          console.log(res);
           await getProjects();
           setToggleForm((prev) => !prev);
         } else throw res;
@@ -78,13 +75,11 @@ export default function DashBoardPage() {
       const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`);
       const data: taskData = res.data;
       let modified = [];
-      // console.log({data})
 
       if (data.tasks && Object.entries(data.tasks).length > 0) {
         for (let [key, value] of Object.entries(data.tasks)) {
           modified.push({ value, length: value.length });
         }
-        console.log(modified);
         setVisualData(modified);
       }
     } catch (error) {
