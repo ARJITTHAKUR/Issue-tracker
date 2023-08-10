@@ -32,8 +32,6 @@ export default function LoginPage() {
         throw "login error occured";
       } else if (res.data.login) {
         const { ID, Name } = res.data.user;
-        // console.log(res)
-        // console.log({user})
         setNewUser({ name: Name, id: ID });
         sessionStorage.setItem("user", JSON.stringify({ name: Name, id: ID }));
         navigate("/dashboard");
