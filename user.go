@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
+
 	"gorm.io/gorm"
 	// "gorm.io/gorm"
 )
@@ -112,9 +115,27 @@ func Login(c *fiber.Ctx) error {
 			"message": "user not found",
 		})
 	}
+
+	// Create the Claims
+	claims := jwt.MapClaims{
+		"name":  "John Doe",
+		"admin": true,
+		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+	}
+
+	// Create token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte("autobotsRoll"))
+
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"login":   true,
+		"token":   t,
 		"user": map[string]string{
 			"Name": userValue.Name,
 			"ID":   strconv.FormatUint(uint64(userValue.ID), 10),

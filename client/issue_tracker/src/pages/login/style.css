@@ -29,35 +29,40 @@ label {
 }
 
 .login-backdrop{
-    height: 50vh;
+    height: 55vh;
     width: 100%;
     background-color: var(--color-primary);
-    position: absolute;
+    /* position: absolute; */
     z-index: -1;
     color: var(--text-light);
 }
 
 .backdrop-label-container {
     display: flex;
+    flex-direction: column;
     height: 100%;
     justify-content: center;
     align-items: center;
+    padding-top: 5rem;
 }
 
 
 .description-container{
     display: flex;
-    position: relative;
-    top: -20rem;
+    /* position: relative; */
+    /* top: -20rem; */
     justify-content: center;
     align-items: stretch;
+    margin-top: 4rem;
+    flex-wrap: wrap;
 }
 
 .description-box{
     display: flex;
     flex-direction: column;
     margin:1rem;
-    flex-basis: 50%;
+    /* flex-basis: 20%; */
+    flex: 1 0 10rem;
     justify-content: center;
     border: 1px solid gray;
     border-radius: 5px;

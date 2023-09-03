@@ -4,7 +4,7 @@ import AddProjectForm from "./dialogForm";
 import axios, { Axios } from "axios";
 import { apis } from "../../const/api-const";
 import { ProjectListInterface, Project, formState } from "./interfaces";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import CreateProjectForm from "./createProjectForm";
 import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
@@ -15,8 +15,10 @@ import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import List from "./list";
 import { Pie, PieChart } from "recharts";
+import { getToken } from "../../services/auth";
 
 export default function DashBoardPage() {
+  const authenticated = useLoaderData();
   const [toggleForm, setToggleForm] = useState(false);
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [user, setUser] = useRecoilState(currentUser);
@@ -31,7 +33,12 @@ export default function DashBoardPage() {
   const getProjects = async () => {
     try {
       const res = await axios.get<ProjectListInterface>(
-        `${apis.GET_PROJECTS}/${user.id}`
+        `${apis.GET_PROJECTS}/${user.id}`,
+        {
+          headers : {
+            "Authorization" : "Bearer " + getToken()
+          }
+        }
       );
       const listData = res.data.projects;
       setProjectList((prev) => listData);
@@ -72,7 +79,11 @@ export default function DashBoardPage() {
           [key: string]: string[];
         };
       };
-      const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`);
+      const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`,{
+        headers:{
+          "Authorization" : "Bearer " + getToken()
+        }
+      });
       const data: taskData = res.data;
       let modified = [];
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -18,7 +19,7 @@ func RoutesSetup(app *fiber.App) {
 
 	task_tracker := app.Group("/tasktracker")
 	task_tracker.Use(func(c *fiber.Ctx) error {
-		if c.Path() == "/tasktracker/api" || strings.HasPrefix(c.Path(), "/tasktracker/api/") {
+		if c.Path() == "/tasktracker/api" || strings.HasPrefix(c.Path(), "/tasktracker/api/") || c.Path() == "/tasktracker/login" {
 			// Pass the request to the API endpoints
 			return c.Next()
 		}
@@ -26,8 +27,13 @@ func RoutesSetup(app *fiber.App) {
 		return c.SendFile("./dist/index.html")
 
 	})
-	api := task_tracker.Group("/api/user")
 
+	app.Post("/tasktracker/login", Login)
+	api := task_tracker.Group("/api/user")
+	// JWT Middleware
+	api.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte("autobotsRoll")},
+	}))
 	api.Post("/createUser", CreateUser)
 	api.Get("/getUser/:id", GetUser)
 
@@ -35,7 +41,7 @@ func RoutesSetup(app *fiber.App) {
 
 	api.Post("/createTask", Createtask)
 
-	api.Post("/login", Login)
+	// api.Post("/login", Login)
 
 	api.Get("/getProjects/:id", GetProjects)
 

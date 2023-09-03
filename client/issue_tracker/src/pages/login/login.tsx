@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import "./style.css";
 import Button from "../../components/UI/button/button";
 import axios, { AxiosError } from "axios";
@@ -12,12 +12,19 @@ import { apis } from "../../const/api-const";
 interface LoginResponse {
   login: boolean;
   success: boolean;
+  token:string
   user: {
     Name: string;
     ID: number;
   };
 }
+
 export default function LoginPage() {
+  // const shouldNavToLogin = useLoaderData();
+  // if(shouldNavToLogin){
+  //   console.log("testing login")
+  //   return  
+  // }
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const toastContext = useContext(ToastContext);
@@ -34,16 +41,14 @@ export default function LoginPage() {
         const { ID, Name } = res.data.user;
         setNewUser({ name: Name, id: ID });
         sessionStorage.setItem("user", JSON.stringify({ name: Name, id: ID }));
+        localStorage.setItem("token",res.data.token)
         navigate("/dashboard");
       }
     } catch (error: any) {
-      // errorToast(error)
       toastContext?.showToast?.();
     }
   };
-  // useEffect(()=>{
-  //   console.log({user})
-  // },[user])
+
   return (
     <>
       <div className="login-backdrop">
@@ -52,17 +57,24 @@ export default function LoginPage() {
           {/* <p>
               Plan | Log | work
             </p> */}
+          <div className="container">
+            <div className="login-container">
+              <label htmlFor="user">Enter Username</label>
+              <input
+                type="text"
+                name="user"
+                ref={inputRef}
+                value={"user1"}
+                className="login-input"
+              />
+              {/* <button onClick={()=>navigate('/dashboard')}>Login</button> */}
+              <Button text="login" onClick={() => loginFunc()} />
+            </div>
+          </div>
         </div>
       </div>
       {/* <NavLink to={"/dashboard"}>dashboard</NavLink> */}
-      <div className="container">
-        <div className="login-container">
-          <label htmlFor="user">Enter Username</label>
-          <input type="text" name="user" ref={inputRef} value={"user1"} className="login-input"/>
-          {/* <button onClick={()=>navigate('/dashboard')}>Login</button> */}
-          <Button text="login" onClick={() => loginFunc()} />
-        </div>
-      </div>
+
       <div className="description-container">
         <div className="description-box">
           <h3 className="description-title">Start a project</h3>

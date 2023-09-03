@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/login/login";
 import DashBoardPage from "./pages/dashboard/dashBoardPage";
 import NotFound from "./pages/notFound";
@@ -12,30 +9,38 @@ import { useEffect, useState } from "react";
 import Project from "./pages/project/projectPage";
 import { useRecoilState } from "recoil";
 import { currentUser } from "./store/store";
-const router = createBrowserRouter([
+import { checkAuthOnNav, shouldNavToLogin } from "./services/auth";
+
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      Component: LoginPage,
+      loader: shouldNavToLogin,
+    },
+    {
+      path: "/dashboard",
+      Component: DashBoardPage,
+      loader: checkAuthOnNav,
+    },
+    {
+      path: "/project/:id",
+      Component: Project,
+      loader: checkAuthOnNav,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ],
   {
-    path: "/",
-    Component: LoginPage,
-  },
-  {
-    path: "/dashboard",
-    Component: DashBoardPage,
-  },
-  {
-    path: "/project/:id",
-    Component: Project,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
-],{
-  basename : '/tasktracker/'
-});
+    basename: "/tasktracker/",
+  }
+);
 
 function App() {
   const [toggleToast, setToggleToast] = useState(false);
-  const [user,setNewUser] = useRecoilState(currentUser) 
+  const [user, setNewUser] = useRecoilState(currentUser);
 
   function showToast() {
     setToggleToast(true);
@@ -44,12 +49,12 @@ function App() {
       clearTimeout(timer);
     }, 3000);
   }
-  
+
   useEffect(() => {
-    const activeUser = JSON.parse(sessionStorage.getItem('user') || '{}')
-    console.log({activeUser})
-    if(activeUser.name){
-      setNewUser(activeUser)
+    const activeUser = JSON.parse(sessionStorage.getItem("user") || "{}");
+    console.log({ activeUser });
+    if (activeUser.name) {
+      setNewUser(activeUser);
     }
   }, []);
   return (
