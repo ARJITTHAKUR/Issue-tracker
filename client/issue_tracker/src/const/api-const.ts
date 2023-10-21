@@ -2,7 +2,9 @@
 export const env = `http://127.0.0.1:8080/tasktracker/api/user`
 // export const env = `http://143.244.138.63:80/tasktracker/api/user`
 // export 
-export const host = `http://127.0.0.1:8080`
+// export const host = `http://127.0.0.1:8080`\
+export const host = `http://143.244.138.63:80`
+
 // export 
 export const apis = {
     lOGIN : `${host}/tasktracker/login`,

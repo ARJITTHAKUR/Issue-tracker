@@ -97,6 +97,11 @@ export default function DashBoardPage() {
       console.error(error);
     }
   };
+  // const navigate = useNavigate()
+  const logout = ()=>{
+    localStorage.removeItem("token")
+    navigate("/")
+  }
   // init
   useEffect(() => {
     getProjects();
@@ -106,6 +111,7 @@ export default function DashBoardPage() {
     <>
       <header>
         <span>Dashboard</span>
+        <span style={{fontSize:"medium", cursor:"pointer"}} onClick={()=>logout()}>logout</span>
       </header>
       <main>
         <section>

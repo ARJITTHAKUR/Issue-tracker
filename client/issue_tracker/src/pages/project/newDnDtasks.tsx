@@ -8,6 +8,7 @@ import { Task } from "./interface";
 import TaskBox from "./taskBox";
 import axios from "axios";
 import { apis } from "../../const/api-const";
+import { getToken } from "../../services/auth";
 
 function Droppable(props: any) {
   const { isOver, setNodeRef } = useDroppable({
@@ -126,7 +127,11 @@ export default function NewDnD({ tasks }: props) {
     setLoading(true);
     try {
       const res = await axios.put(
-        `${apis.SET_TO_INPROGRESS}${type}/${task.ID}`
+        `${apis.SET_TO_INPROGRESS}${type}/${task.ID}`,{
+          headers:{
+            "Authorization" : "Bearer " + getToken()
+          }
+        }
       );
       console.log({ res });
       if (res.statusText === "ok") {

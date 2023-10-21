@@ -1,4 +1,4 @@
-import { redirect,useLocation } from "react-router-dom";
+import { Navigate, redirect,useLocation } from "react-router-dom";
 
 export const checkAuthOnNav = () => {
   const token = localStorage.getItem("token");
@@ -14,9 +14,10 @@ export const getToken = () => {
 
 export const shouldNavToLogin = () => {
   const token = localStorage.getItem("token");
+  console.log({token})
   if (token) {
-    return token;
+    // if the token exists stay at the same page
+    return false
   }
-  const localtion = useLocation()
-  return redirect(localtion.pathname);
+  return true
 };

@@ -1,4 +1,10 @@
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  Navigate,
+  redirect,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import "./style.css";
 import Button from "../../components/UI/button/button";
 import axios, { AxiosError } from "axios";
@@ -12,7 +18,7 @@ import { apis } from "../../const/api-const";
 interface LoginResponse {
   login: boolean;
   success: boolean;
-  token:string
+  token: string;
   user: {
     Name: string;
     ID: number;
@@ -20,12 +26,11 @@ interface LoginResponse {
 }
 
 export default function LoginPage() {
-  // const shouldNavToLogin = useLoaderData();
-  // if(shouldNavToLogin){
-  //   console.log("testing login")
-  //   return  
-  // }
-  const navigate = useNavigate();
+  const shouldNavToLogin = useLoaderData();
+  let navigate = useNavigate();
+  if (!shouldNavToLogin) {
+    return <Navigate to={"/dashboard"} replace={true} />;
+  }
   const inputRef = useRef<HTMLInputElement>(null);
   const toastContext = useContext(ToastContext);
   const [user, setNewUser] = useRecoilState(currentUser);
@@ -41,7 +46,7 @@ export default function LoginPage() {
         const { ID, Name } = res.data.user;
         setNewUser({ name: Name, id: ID });
         sessionStorage.setItem("user", JSON.stringify({ name: Name, id: ID }));
-        localStorage.setItem("token",res.data.token)
+        localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       }
     } catch (error: any) {

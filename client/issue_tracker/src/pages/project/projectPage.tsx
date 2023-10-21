@@ -11,6 +11,7 @@ import { Task } from "./interface";
 import CustomHeader from "../../components/UI/header/header";
 import NewDnD from "./newDnDtasks";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { getToken } from "../../services/auth";
 
 export default function Project() {
   const [user, setUser] = useRecoilState(currentUser);
@@ -36,7 +37,11 @@ export default function Project() {
       userID: currentSelectedProject.UserId,
     }
     try {
-        let res = await axios.post(apis.CREATE_TASK,payload)
+        let res = await axios.post(apis.CREATE_TASK,payload,{
+          headers:{
+            "Authorization" : "Bearer " + getToken()
+          }
+        })
 
         if(res.status){
             setToggleForm(prev=>!prev)
@@ -51,7 +56,11 @@ export default function Project() {
 
   const getTasks =async ()=>{
     try {
-      const res = await axios.get<{tasks:Task[]}>(`${apis.GET_TASKS}/${currentSelectedProject.ID}`)
+      const res = await axios.get<{tasks:Task[]}>(`${apis.GET_TASKS}/${currentSelectedProject.ID}`,{
+        headers:{
+          "Authorization" : "Bearer " + getToken()
+        }
+      })
       if(res.status){
         const newTasks = [...res.data.tasks]
         setTaskList(newTasks)

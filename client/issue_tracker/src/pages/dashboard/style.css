@@ -6,6 +6,9 @@ header{
     font-size: larger;
     text-align: center;
     border-bottom: 1px solid grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 main{
     display: flex;
