@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,14 +24,14 @@ func Createtask(c *fiber.Ctx) error {
 		})
 
 	}
-	fmt.Printf("temptask => %+v\n", tempTask)
+	// fmt.Printf("temptask => %+v\n", tempTask)
 	tempProject := new(Project)
 	type project struct {
 		ID uint
 	}
 	resError := DB.Where("id = ?", tempTask.ProjectID).First(tempProject).Error // temp project struct for where query and mutation in complete shape
 
-	fmt.Printf("queried: %+v\n", tempProject)
+	// fmt.Printf("queried: %+v\n", tempProject)
 
 	if resError != nil {
 		if errors.Is(resError, gorm.ErrRecordNotFound) {
@@ -80,7 +79,7 @@ func GetTasks(c *fiber.Ctx) error {
 func ChangeStatus(c *fiber.Ctx) error {
 	status := c.Params("status")
 	id := c.Params("id")
-	fmt.Printf("id : %s, status : %s", id, status)
+	// fmt.Printf("id : %s, status : %s", id, status)
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
