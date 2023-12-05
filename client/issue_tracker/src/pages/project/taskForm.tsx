@@ -79,7 +79,7 @@ export default function TaskForm({submit} : props){
     <div>
     <form onSubmit={handleSubmit} className="form-container">
         <label htmlFor="projectname" data-tooltip="Enter Project Name in the below field" className="project-name">Task Name</label>
-        <input type="text" name="projectname" id="" value={formState.taskname} onChange={(e)=>formDispatch({type: ActionTypes.changetask, payload: e.target.value})}/>
+        <input type="text" name="projectname" id="" style={{padding:"0.4rem"}} value={formState.taskname} onChange={(e)=>formDispatch({type: ActionTypes.changetask, payload: e.target.value})}/>
         {
             errors && errors?.taskname.length > 0 && errors.taskname.map(errors=><span style={{color:'red'}}>{errors}</span>)
         }
@@ -93,22 +93,59 @@ export default function TaskForm({submit} : props){
         <label htmlFor="enddate">End Date
         <input type="date" name="endDate" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeEndDate, payload: e.target.value})}/>
         </label> */}
-        <label htmlFor="">Status</label>
+        {/* <label htmlFor="">Status</label>
         <select name="" id="" value={formState.status} onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}>
             <option value="planning">Planning</option>
             <option value="inprogress">In progress</option>
             <option value="completed">Completed</option>
             <option value="">No Status</option>
-        </select>
+        </select> */}
+
+        <label htmlFor="">Status</label>
+
+        <div className="status_radio_wrapper">
+        <label htmlFor="nostatus">
+        <input type="radio" name="status" id="nostatus" value="" defaultChecked={true} onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}/>
+        New Task
+        </label>
+        <label htmlFor="planning">
+        <input type="radio" name="status" id="planning" value="planning" onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}/>
+        Planning
+        </label>
+        <label htmlFor="progress">
+        <input type="radio" name="status" id="progress"  value="inprogress" onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}/>
+        In Progress
+        </label>
+        <label htmlFor="completed">
+        <input type="radio" name="status" id="completed" value="completed" onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}/>
+        Completed
+        </label>
+        </div>
 
         <label htmlFor="">Priority</label>
-        <select name="" id="" value={formState.priority} onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}>
+        {/* <select name="" id="" value={formState.priority} onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}>
             <option value="highest">Highest</option>
             <option value="high">High</option>
             <option value="low">Low</option>
-        </select>
+        </select> */}
 
-        <label htmlFor="description">Enter Task Description</label>
+        <div className="status_radio_wrapper">
+        <label htmlFor="low">
+        <input type="radio" name="prio" id="low" value="low" defaultChecked={true} onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}/>
+        Low
+        </label>
+        <label htmlFor="highest">
+        <input type="radio" name="prio" id="highest" value="highest" onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}/>
+        Highest
+        </label>
+        <label htmlFor="high">
+        <input type="radio" name="prio" id="high"  value="high" onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}/>
+        High
+        </label>
+        
+        </div>
+
+        <label htmlFor="description">Task Description</label>
         <textarea name="description" id="" cols={30} rows={10} value={formState.description} onChange={(e)=>formDispatch({type: ActionTypes.changeDescription, payload: e.target.value})}></textarea>
         {
             errors && errors?.description.length > 0 && errors.description.map(errors=><span style={{color:'red'}}>{errors}</span>)

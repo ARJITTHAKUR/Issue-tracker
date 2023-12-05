@@ -56,7 +56,7 @@ interface props {
 export default function NewDnD({ tasks }: props) {
   const [taskStateList, setTaskStateList] = useState<Task[]>(tasks);
   useEffect(() => {
-    console.log({ taskStateList });
+    // console.log({ taskStateList });
   }, [taskStateList]);
   useEffect(()=>{
     setTaskStateList(tasks) // important state update since were are managing internal list state here 
@@ -65,7 +65,7 @@ export default function NewDnD({ tasks }: props) {
 
   async function handleDragEnd(event: any) {
     if (event.over) {
-      console.log({ event });
+      // console.log({ event });
       switch (event.over.id) {
         case "planning":
           await changeStatus(event.active.data.current, "planning");
@@ -133,9 +133,9 @@ export default function NewDnD({ tasks }: props) {
           }
         }
       );
-      console.log({ res });
+      // console.log({ res });
       if (res.statusText === "ok") {
-        console.log({ res });
+        // console.log({ res });
       } else throw "error occured during the operation";
     } catch (error) {
       console.error(error);
@@ -162,7 +162,7 @@ export default function NewDnD({ tasks }: props) {
 
           <div className="droppable-container">
             <div className="droppable-elements">
-              <h1 >New Tasks</h1>
+              <h1 className="heading-label">New Tasks</h1>
               {taskStateList.map((task) => {
                 return (
                   <>
@@ -180,7 +180,7 @@ export default function NewDnD({ tasks }: props) {
             {/* {dragMarker} */}
             <div className="droppable-elements">
               <Droppable id={"planning"} key={"planning"}>
-                <h1 style={{color:'rgb(  0, 158, 206 )'}}>Planning</h1>
+                <h1 className="heading-label" style={{color:'rgb(  0, 158, 206 )'}}>Planning</h1>
                 {taskStateList.map((task) => {
                   return (
                     <>
@@ -198,7 +198,7 @@ export default function NewDnD({ tasks }: props) {
             </div>
             <div className="droppable-elements">
               <Droppable id={"inprogress"} key={"inprogress"}>
-                <h1 style={{color:'rgb( 247, 215, 8 )'}}>In Progress</h1>
+                <h1 className="heading-label" style={{color:'rgb( 247, 215, 8 )'}}>In Progress</h1>
                 {taskStateList.map((task) => {
                   return (
                     <>
@@ -216,7 +216,7 @@ export default function NewDnD({ tasks }: props) {
             </div>
             <div className="droppable-elements">
               <Droppable id={"completed"} key={"completed"}>
-                <h1 style={{color:'rgb( 	156, 207, 49  )'}}>Completed</h1>
+                <h1 className="heading-label" style={{color:'rgb( 	156, 207, 49  )'}}>Completed</h1>
                 {/* {isDropped.one ? draggableMarkup : "drop here"}
             {isDropped.two ? draggableMarkup_two : "drop here"} */}
                 {taskStateList.map((task) => {

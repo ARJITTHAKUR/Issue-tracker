@@ -21,7 +21,7 @@ const StatusLabel = ({data})=>{
 
     return <span>
         {
-            data ? <span style={{backgroundColor:"gray", color : "var(--text-light)", padding:"0.2rem 0.5rem", borderRadius:"0.5rem"}}>{data}</span> :""
+            data ? <span style={{backgroundColor:"gray", color : "var(--text-light)", padding:"0.2rem 0.2rem", borderRadius:"0.2rem"}}>{data}</span> :""
 
         }
     </span>

@@ -22,14 +22,17 @@ select {
     display:flex;
     flex-direction: column;
     background-color: rgb(232, 232, 232);
-    padding: 1rem;
-    border-radius: 5px;
+    padding: 0.5rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid darkgrey;
+    gap  :0.2rem;
 }
 .task-item {
-    display: flex;
+    display:flex;
+    font-size: small;
 }
 .item-name {
-    flex-basis: 30%;
+    flex-basis: 50%;
     color: var(--color-primary);
     padding: 0rem 0.2rem;
 }
@@ -52,11 +55,12 @@ select {
     flex-direction: column;
     padding: 1rem;
     /* border : 1px solid lightslategray; */
-    border-radius: 5px;
+    /* border-radius: 5px; */
     /* width: 100%; */
     flex-basis: 100%;
     border-right: 1px solid grey;
-    /* overflow-y: scroll; */
+    border-bottom: 1px solid grey;
+
 }
 
 .new-task-container{
@@ -119,4 +123,26 @@ h1 {
     background-color: var(--color-neutral);
     padding: 0.5rem;
     border-radius: 0.2rem;
+}
+
+.heading-label{
+    font-size: large;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid grey;
+}
+
+.status_radio_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.status_radio_wrapper > label {
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid gray;
+    border-radius: 3px;
 }
