@@ -6,7 +6,6 @@ interface props {
 }
 export default function TaskBox({task}: props){
 
-    // const shortDescription = (str:string) => <span title={str} style={{cursor:"pointer"}}>{str.}</span> 
     return<>
     <span className="taskBox">
         <span className="task-item"><b className="item-name">Description </b> <DescriptionBox description={task.description}/></span>
@@ -29,9 +28,7 @@ const StatusLabel = ({data})=>{
 
 const DescriptionBox = ({description})=>{
     const ref = useRef(null)
-    const style = {
-
-    }
+    
     const handleMouseOver = ()=>{
         const style = {
             position: 'absolute',

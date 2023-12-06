@@ -83,23 +83,6 @@ export default function TaskForm({submit} : props){
         {
             errors && errors?.taskname.length > 0 && errors.taskname.map(errors=><span style={{color:'red'}}>{errors}</span>)
         }
-        {
-
-        }
-        {/* <label htmlFor="startdate">Start Date
-        <input type="date" name="startDate" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeStartDate, payload: e.target.value})}/>
-        </label>
-
-        <label htmlFor="enddate">End Date
-        <input type="date" name="endDate" id="" onChange={(e)=>formDispatch({type: ActionTypes.changeEndDate, payload: e.target.value})}/>
-        </label> */}
-        {/* <label htmlFor="">Status</label>
-        <select name="" id="" value={formState.status} onChange={(e)=>formDispatch({type: ActionTypes.changeStatus, payload: e.target.value})}>
-            <option value="planning">Planning</option>
-            <option value="inprogress">In progress</option>
-            <option value="completed">Completed</option>
-            <option value="">No Status</option>
-        </select> */}
 
         <label htmlFor="">Status</label>
 
@@ -123,11 +106,6 @@ export default function TaskForm({submit} : props){
         </div>
 
         <label htmlFor="">Priority</label>
-        {/* <select name="" id="" value={formState.priority} onChange={(e)=>formDispatch({type: ActionTypes.changePriority, payload: e.target.value})}>
-            <option value="highest">Highest</option>
-            <option value="high">High</option>
-            <option value="low">Low</option>
-        </select> */}
 
         <div className="status_radio_wrapper">
         <label htmlFor="low">
