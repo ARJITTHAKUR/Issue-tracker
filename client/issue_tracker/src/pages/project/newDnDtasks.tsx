@@ -55,13 +55,12 @@ interface props {
 }
 export default function NewDnD({ tasks }: props) {
   const [taskStateList, setTaskStateList] = useState<Task[]>(tasks);
-  useEffect(() => {
-    // console.log({ taskStateList });
-  }, [taskStateList]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  
   useEffect(()=>{
     setTaskStateList(tasks) // important state update since were are managing internal list state here 
   },[tasks])
-  const [loading, setLoading] = useState<boolean>(false);
 
   async function handleDragEnd(event: any) {
     if (event.over) {

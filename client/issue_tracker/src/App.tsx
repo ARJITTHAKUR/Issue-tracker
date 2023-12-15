@@ -41,7 +41,7 @@ const router = createBrowserRouter(
 function App() {
   const [toggleToast, setToggleToast] = useState(false);
   const [user, setNewUser] = useRecoilState(currentUser);
-
+  // console.log("user value before useEffect",{user})
   function showToast() {
     setToggleToast(true);
     const timer = setTimeout(() => {
@@ -52,7 +52,7 @@ function App() {
 
   useEffect(() => {
     const activeUser = JSON.parse(sessionStorage.getItem("user") || "{}");
-    console.log({ activeUser });
+    // console.log({ activeUser });
     if (activeUser.name) {
       setNewUser(activeUser);
     }

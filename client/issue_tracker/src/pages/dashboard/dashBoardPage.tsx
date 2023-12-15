@@ -31,6 +31,7 @@ export default function DashBoardPage() {
     setToggleForm((prev) => !prev);
   };
   const getProjects = async () => {
+    // debugger
     try {
       const res = await axios.get<ProjectListInterface>(
         `${apis.GET_PROJECTS}/${user.id}`,
@@ -41,7 +42,8 @@ export default function DashBoardPage() {
         }
       );
       const listData = res.data.projects;
-      setProjectList((prev) => listData);
+      // setProjectList((prev) => listData);
+      setProjectList(listData);
     } catch (error) {
       console.error(error);
     }
@@ -69,6 +71,7 @@ export default function DashBoardPage() {
   );
   const navigateToProject = (id: number) => {
     const selectedProject = projectList.find((ele) => ele.ID === id);
+    console.log({selectedProject})
     setCurrentSelectedProject((prev) => selectedProject as any);
     navigate(`/project/${id}`);
   };
@@ -91,6 +94,7 @@ export default function DashBoardPage() {
         for (let [key, value] of Object.entries(data.tasks)) {
           modified.push({ value, length: value.length });
         }
+        // console.log({modified})
         setVisualData(modified);
       }
     } catch (error) {
@@ -114,6 +118,9 @@ export default function DashBoardPage() {
         <span style={{fontSize:"medium", cursor:"pointer"}} onClick={()=>logout()}>logout</span>
       </header>
       <main>
+        {
+          JSON.stringify(sessionStorage.getItem("user") || "{}")
+        }
         <section>
           <div className="label">Current Projects</div>
           <div className="listing">
