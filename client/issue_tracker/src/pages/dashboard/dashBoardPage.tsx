@@ -8,7 +8,7 @@ import { NavLink, redirect, useLoaderData, useNavigate } from "react-router-dom"
 import CreateProjectForm from "./createProjectForm";
 import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { currentProject, currentUser } from "../../store/store";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
@@ -21,7 +21,7 @@ export default function DashBoardPage() {
   const authenticated = useLoaderData();
   const [toggleForm, setToggleForm] = useState(false);
   const [projectList, setProjectList] = useState<Project[]>([]);
-  const [user, setUser] = useRecoilState(currentUser);
+  const user = useRecoilValue(currentUser);
   const [currentSelectedProject, setCurrentSelectedProject] =
     useRecoilState(currentProject);
   const [visualData, setVisualData] = useState([]);
@@ -71,7 +71,6 @@ export default function DashBoardPage() {
   );
   const navigateToProject = (id: number) => {
     const selectedProject = projectList.find((ele) => ele.ID === id);
-    console.log({selectedProject})
     setCurrentSelectedProject((prev) => selectedProject as any);
     navigate(`/project/${id}`);
   };
@@ -94,7 +93,6 @@ export default function DashBoardPage() {
         for (let [key, value] of Object.entries(data.tasks)) {
           modified.push({ value, length: value.length });
         }
-        // console.log({modified})
         setVisualData(modified);
       }
     } catch (error) {
@@ -110,7 +108,7 @@ export default function DashBoardPage() {
   useEffect(() => {
     getProjects();
     getVisualProjectData();
-  }, [user]);
+  }, []);
   return (
     <>
       <header>
@@ -118,9 +116,6 @@ export default function DashBoardPage() {
         <span style={{fontSize:"medium", cursor:"pointer"}} onClick={()=>logout()}>logout</span>
       </header>
       <main>
-        {
-          JSON.stringify(sessionStorage.getItem("user") || "{}")
-        }
         <section>
           <div className="label">Current Projects</div>
           <div className="listing">

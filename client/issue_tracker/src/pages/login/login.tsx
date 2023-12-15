@@ -12,7 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { ToastContext } from "../../context/toastContext";
-import { currentUser } from "../../store/store";
+import { currentUser,setCurrentUser } from "../../store/store";
 import { apis } from "../../const/api-const";
 
 interface LoginResponse {
@@ -33,7 +33,7 @@ export default function LoginPage() {
   }
   const inputRef = useRef<HTMLInputElement>(null);
   const toastContext = useContext(ToastContext);
-  const [user, setNewUser] = useRecoilState(currentUser);
+  const [user, setNewUser] = useRecoilState(setCurrentUser);
 
   const loginFunc = async () => {
     const body: any = {};

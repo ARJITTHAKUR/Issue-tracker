@@ -7,7 +7,7 @@ type Props = {
 export default function CustomHeader({children} :Props){
   const navigate = useNavigate()
     const logout = ()=>{
-      localStorage.removeItem("token")
+      sessionStorage.removeItem("user")
       navigate("/")
     }
 

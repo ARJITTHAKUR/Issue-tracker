@@ -7,7 +7,7 @@ import Toast from "./components/UI/toast/toast";
 import { ToastContext } from "./context/toastContext";
 import { useEffect, useState } from "react";
 import Project from "./pages/project/projectPage";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUser } from "./store/store";
 import { checkAuthOnNav, shouldNavToLogin } from "./services/auth";
 
@@ -40,8 +40,6 @@ const router = createBrowserRouter(
 
 function App() {
   const [toggleToast, setToggleToast] = useState(false);
-  const [user, setNewUser] = useRecoilState(currentUser);
-  // console.log("user value before useEffect",{user})
   function showToast() {
     setToggleToast(true);
     const timer = setTimeout(() => {
@@ -49,14 +47,6 @@ function App() {
       clearTimeout(timer);
     }, 3000);
   }
-
-  useEffect(() => {
-    const activeUser = JSON.parse(sessionStorage.getItem("user") || "{}");
-    // console.log({ activeUser });
-    if (activeUser.name) {
-      setNewUser(activeUser);
-    }
-  }, []);
   return (
     <>
       <ToastContext.Provider value={{ showToast }}>
