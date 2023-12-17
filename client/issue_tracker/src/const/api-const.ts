@@ -13,5 +13,6 @@ export const apis = {
     SET_TO_PLANNING : `${host}/tasktracker/api/user/changeTaskStatus/`,
     SET_TO_INPROGRESS : `${host}/tasktracker/api/user/changeTaskStatus/`,
     SET_TO_COMPLETE : `${host}/tasktracker/api/user/changeTaskStatus/`,
-    GET_ALL_PROJECT_DATA : `${host}/tasktracker/api/user/getUserProjectData`
+    GET_ALL_PROJECT_DATA : `${host}/tasktracker/api/user/getUserProjectData`,
+    DELETE_PROJECT : `${host}/tasktracker/api/user/deleteProject/`
 }

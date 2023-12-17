@@ -4,9 +4,10 @@ import { Project } from "./interfaces";
 interface props {
   projectList: Project[];
   onListItemClick: (id: number) => void;
+  onDeleteClick : (id : number)=> void;
 }
 
-export default function List({ projectList, onListItemClick }: props) {
+export default function List({ projectList, onListItemClick, onDeleteClick }: props) {
   return (
     <>
       <ul>
@@ -27,7 +28,10 @@ export default function List({ projectList, onListItemClick }: props) {
                   <span>{list?.projectname}</span>
                   </span>
                   <span>
-                    <TrashIcon height={25} width={25} />
+                    <TrashIcon height={25} width={25} onClick={(e)=>{
+                      e.stopPropagation()
+                      onDeleteClick(list.ID)
+                    }}/>
                   </span>
                 </li>
               </>

@@ -31,7 +31,6 @@ export default function DashBoardPage() {
     setToggleForm((prev) => !prev);
   };
   const getProjects = async () => {
-    // debugger
     try {
       const res = await axios.get<ProjectListInterface>(
         `${apis.GET_PROJECTS}/${user.id}`,
@@ -104,6 +103,21 @@ export default function DashBoardPage() {
     localStorage.removeItem("token")
     navigate("/")
   }
+
+  const deleteItem = async(id)=>{
+    try {
+      const res = await axios.put(`${apis.DELETE_PROJECT}${id}`,{
+        headers:{
+          "Authorization" : "Bearer " + getToken()
+        }
+      })
+      console.log({res})
+    }catch (e) {
+      console.log({e})
+    }
+    
+
+  }
   // init
   useEffect(() => {
     getProjects();
@@ -123,6 +137,10 @@ export default function DashBoardPage() {
               projectList={projectList}
               onListItemClick={(id) => {
                 navigateToProject(id);
+              }}
+              onDeleteClick={(id)=>{
+                console.log({id})
+                deleteItem(id)
               }}
             />
           </div>
