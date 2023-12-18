@@ -14,7 +14,7 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { getToken } from "../../services/auth";
 
 export default function Project() {
-  const [user, setUser] = useRecoilState(currentUser);
+  const user = useRecoilValue(currentUser);
   
   const userVal = useRecoilValue(currentUser);
   const [toggleForm, setToggleForm] = useState(false);
