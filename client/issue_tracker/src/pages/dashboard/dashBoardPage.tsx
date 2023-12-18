@@ -111,9 +111,8 @@ export default function DashBoardPage() {
           "Authorization" : "Bearer " + getToken()
         }
       })
-      console.log({res})
     }catch (e) {
-      console.log({e})
+      console.error({e})
     }
     
 
@@ -139,7 +138,6 @@ export default function DashBoardPage() {
                 navigateToProject(id);
               }}
               onDeleteClick={(id)=>{
-                console.log({id})
                 deleteItem(id)
               }}
             />

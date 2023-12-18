@@ -14,7 +14,6 @@ export const getToken = () => {
 
 export const shouldNavToLogin = () => {
   const token = localStorage.getItem("token");
-  console.log({token})
   if (token) {
     // if the token exists stay at the same page
     return false

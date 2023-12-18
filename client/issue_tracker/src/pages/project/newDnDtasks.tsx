@@ -64,7 +64,6 @@ export default function NewDnD({ tasks }: props) {
 
   async function handleDragEnd(event: any) {
     if (event.over) {
-      // console.log({ event });
       switch (event.over.id) {
         case "planning":
           await changeStatus(event.active.data.current, "planning");
@@ -132,9 +131,7 @@ export default function NewDnD({ tasks }: props) {
           }
         }
       );
-      // console.log({ res });
       if (res.statusText === "ok") {
-        // console.log({ res });
       } else throw "error occured during the operation";
     } catch (error) {
       console.error(error);

@@ -49,7 +49,6 @@ export default function TaskForm({submit} : props){
             validForm.parse(data)
         } catch (errors) {
             if(errors instanceof z.ZodError){
-                console.log(errors.flatten())
                 const {fieldErrors} = errors.flatten()
                 setErrors({
                     taskname : fieldErrors?.taskname as string[] || [],
@@ -61,17 +60,14 @@ export default function TaskForm({submit} : props){
     function handleSubmit(e : FormEvent){
         e.preventDefault();
         formValidation(formState)
-        // console.log(e,{formState})
         submit(formState)
         formDispatch({type: ActionTypes.resetForm})
     }
 
     useEffect(()=>{
-        console.log("running useEffect")
 
         return ()=>{
             formDispatch({type:ActionTypes.resetForm})
-            console.log("cleaning")
         }
     },[])
     return <>

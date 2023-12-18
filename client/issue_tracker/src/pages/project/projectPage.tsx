@@ -22,15 +22,10 @@ export default function Project() {
   const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
 
   const logUser = () => {
-    console.log({ user });
   };
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user, userVal]);
 
 
   const createTask = async(data : any)=>{
-    // console.log(data);
     const payload = {
       ...data,
       projectID : currentSelectedProject.ID,
@@ -73,9 +68,6 @@ export default function Project() {
   useEffect(()=>{
     getTasks()
   },[user.id])
-  // useEffect(()=>{
-  //   console.log({taskList})
-  // },[taskList])
   
   return (
     <>
