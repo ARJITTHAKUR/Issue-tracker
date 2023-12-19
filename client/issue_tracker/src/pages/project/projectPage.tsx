@@ -21,9 +21,6 @@ export default function Project() {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [currentSelectedProject, setCurrentSelectedProject] = useRecoilState(currentProject)
 
-  const logUser = () => {
-  };
-
 
   const createTask = async(data : any)=>{
     const payload = {

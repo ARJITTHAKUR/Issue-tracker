@@ -4,7 +4,12 @@ import AddProjectForm from "./dialogForm";
 import axios, { Axios } from "axios";
 import { apis } from "../../const/api-const";
 import { ProjectListInterface, Project, formState } from "./interfaces";
-import { NavLink, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  redirect,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import CreateProjectForm from "./createProjectForm";
 import DialogForm from "../../components/UI/dialog/dialog";
 import DashBoardDialog from "./dialogForm";
@@ -35,9 +40,9 @@ export default function DashBoardPage() {
       const res = await axios.get<ProjectListInterface>(
         `${apis.GET_PROJECTS}/${user.id}`,
         {
-          headers : {
-            "Authorization" : "Bearer " + getToken()
-          }
+          headers: {
+            Authorization: "Bearer " + getToken(),
+          },
         }
       );
       const listData = res.data.projects;
@@ -80,10 +85,10 @@ export default function DashBoardPage() {
           [key: string]: string[];
         };
       };
-      const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`,{
-        headers:{
-          "Authorization" : "Bearer " + getToken()
-        }
+      const res = await axios.get(`${apis.GET_ALL_PROJECT_DATA}/${user.id}`, {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
       });
       const data: taskData = res.data;
       let modified = [];
@@ -99,24 +104,22 @@ export default function DashBoardPage() {
     }
   };
   // const navigate = useNavigate()
-  const logout = ()=>{
-    localStorage.removeItem("token")
-    navigate("/")
-  }
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
-  const deleteItem = async(id)=>{
+  const deleteItem = async (id) => {
     try {
-      const res = await axios.put(`${apis.DELETE_PROJECT}${id}`,{
-        headers:{
-          "Authorization" : "Bearer " + getToken()
-        }
-      })
-    }catch (e) {
-      console.error({e})
+      const res = await axios.put(`${apis.DELETE_PROJECT}${id}`, null, {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+      });
+    } catch (e) {
+      console.error({ e });
     }
-    
-
-  }
+  };
   // init
   useEffect(() => {
     getProjects();
@@ -126,7 +129,12 @@ export default function DashBoardPage() {
     <>
       <header>
         <span>Dashboard</span>
-        <span style={{fontSize:"medium", cursor:"pointer"}} onClick={()=>logout()}>logout</span>
+        <span
+          style={{ fontSize: "medium", cursor: "pointer" }}
+          onClick={() => logout()}
+        >
+          logout
+        </span>
       </header>
       <main>
         <section>
@@ -137,8 +145,8 @@ export default function DashBoardPage() {
               onListItemClick={(id) => {
                 navigateToProject(id);
               }}
-              onDeleteClick={(id)=>{
-                deleteItem(id)
+              onDeleteClick={(id) => {
+                deleteItem(id);
               }}
             />
           </div>
