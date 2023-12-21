@@ -79,7 +79,6 @@ func GetTasks(c *fiber.Ctx) error {
 func ChangeStatus(c *fiber.Ctx) error {
 	status := c.Params("status")
 	id := c.Params("id")
-	// fmt.Printf("id : %s, status : %s", id, status)
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {

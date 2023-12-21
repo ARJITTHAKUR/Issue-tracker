@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"strconv"
 	"time"
 
@@ -53,11 +51,11 @@ func CreateUser(c *fiber.Ctx) error {
 		println(err.Error())
 		return err
 	}
-	fmt.Printf("json %+v\n", tempUserStruct)
+	// fmt.Printf("json %+v\n", tempUserStruct)
 	findErr := DB.Where("name = ?", tempUserStruct.Name).First(&tempUserStruct).Error
-	fmt.Println(findErr)
+	// fmt.Println(findErr)
 	if findErr == gorm.ErrRecordNotFound {
-		fmt.Println("not found", findErr)
+		// fmt.Println("not found", findErr)
 		newUser := User{
 			Name: tempUserStruct.Name,
 		}
@@ -73,7 +71,7 @@ func CreateUser(c *fiber.Ctx) error {
 		}
 
 	} else {
-		fmt.Println("else block")
+		// fmt.Println("else block")
 		return c.JSON(&fiber.Map{
 			"error": "User already exsits",
 		})
@@ -83,7 +81,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 func GetUser(c *fiber.Ctx) error {
 	userID := c.Params("id")
-	fmt.Println(userID)
+	// fmt.Println(userID)
 
 	return c.Status(200).JSON(&fiber.Map{
 		"userId": userID,
@@ -93,14 +91,14 @@ func GetUser(c *fiber.Ctx) error {
 func Login(c *fiber.Ctx) error {
 
 	cred := userCreds{}
-	fmt.Println(json.Marshal(c.Body()))
+	// fmt.Println(json.Marshal(c.Body()))
 	if err := c.BodyParser(&cred); err != nil {
 		return c.JSON(&fiber.Map{
 			"message": "parsing error",
 			"success": false,
 		})
 	}
-	fmt.Println("user credentials", cred)
+	// fmt.Println("user credentials", cred)
 	errors := ValidateStruct(cred)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
@@ -108,7 +106,7 @@ func Login(c *fiber.Ctx) error {
 
 	userValue := User{}
 	DB.Where(&cred).First(&userValue)
-	fmt.Println(userValue, cred)
+	// fmt.Println(userValue, cred)
 	if userValue.Name != cred.Name {
 		return c.JSON(&fiber.Map{
 			"success": false,
